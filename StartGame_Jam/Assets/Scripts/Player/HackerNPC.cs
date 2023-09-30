@@ -23,7 +23,7 @@ namespace Player
         {
             if (IsdefaultActionCooldown)
             {
-                defaultActionCooldown -= Time.deltaTime;
+                _currentActionCooldown -= Time.deltaTime;
             }
             else 
             {
@@ -35,7 +35,10 @@ namespace Player
 
         private void MoveOnNextPlatform()
         {
-            
+            if (targetPlayer.PlayerPath == null)
+                return;
+            Vector2Int platform = targetPlayer.PlayerPath.Dequeue();
+            transform.position = World[platform.x, platform.y].PlayerPivot.position;
             // Get player path Queue 
             // Move On it
             // Check if player was caught (game finishes)
