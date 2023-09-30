@@ -5,9 +5,10 @@ namespace Effects
 {
     public class MusicEffect : PlatformEffect
     {
+        
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            throw new System.NotImplementedException();
+            // player.Barrier = True;
         }
     }
 }
