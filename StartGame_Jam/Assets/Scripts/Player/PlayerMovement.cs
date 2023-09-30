@@ -18,6 +18,8 @@ namespace Player
         private Vector2 _moveInput;
         private int _playerMoves;
         
+        public bool HasBarrier { get; set; }
+        
         /// <summary>
         /// Current X of platform on which player stands
         /// </summary>
@@ -123,6 +125,12 @@ namespace Player
         {
             var targetPosition = _playerPath.Dequeue();
             MoveSelfOnPlatform(targetPosition.x, targetPosition.y);
+        }
+
+        public void HandleBarrierBlock()
+        {
+            // handle VFX
+            HasBarrier = false;
         }
     }
 }

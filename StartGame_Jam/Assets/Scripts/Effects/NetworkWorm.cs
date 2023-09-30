@@ -12,6 +12,12 @@ namespace Effects
         
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
+            if (player.HasBarrier)
+            {
+                player.HandleBarrierBlock();
+                return;
+            }
+
             var queue = player.PlayerPath;
             if (queue.Count == 0)
                 return;

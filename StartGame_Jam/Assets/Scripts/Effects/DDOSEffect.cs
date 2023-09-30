@@ -11,6 +11,12 @@ namespace Effects
         
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
+            if (player.HasBarrier)
+            {
+                player.HandleBarrierBlock();
+                return;
+            }
+            
             // set player inversed bool -> True 
             StartCoroutine(WaitForDuration());
 
