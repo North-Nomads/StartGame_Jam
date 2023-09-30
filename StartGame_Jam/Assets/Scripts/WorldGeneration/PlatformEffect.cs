@@ -1,11 +1,9 @@
 ﻿using Player;
-using System;
-using UnityEngine;
 
 namespace WorldGeneration
 {
-    public abstract class PlatformEffect : ScriptableObject
+    public interface IPlatformEffect
     {
-        public abstract void OnPlayerGetInto(PlayerMovement player);
+        public void ExecuteOnPickUp(PlayerMovement player);
     }
 }
