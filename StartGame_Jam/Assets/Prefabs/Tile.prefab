@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 6704970877928635797}
-  isReachable: 1
+  isReachable: 0
