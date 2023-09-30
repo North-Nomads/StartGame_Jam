@@ -11,13 +11,13 @@ namespace Effects
         [SerializeField] private int barrierRadius;
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            // player.hacker.BarrierRadius = barrierRadius
+            player.BarrierRadius = barrierRadius;
             StartCoroutine(WaitForDuration());
 
             IEnumerator WaitForDuration()
             {
                 yield return new WaitForSeconds(effectDuration);
-                // player.hacker.BarrierRadius = 0; 
+                player.BarrierRadius = 0; 
             }
         }
     }

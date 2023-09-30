@@ -11,13 +11,19 @@ namespace Effects
         
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            // set player inversed bool -> True 
+            if (player.HasShield)
+            {
+                player.HandleBarrierBlock();
+                return;
+            }
+            
+            player.AreInputsReversed = true;
             StartCoroutine(WaitForDuration());
 
             IEnumerator WaitForDuration()
             {
                 yield return new WaitForSeconds(effectDuration);
-                // set player inversed bool -> False
+                player.AreInputsReversed = false;
             }
         }
     }

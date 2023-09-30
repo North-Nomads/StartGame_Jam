@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WorldGeneration;
@@ -9,32 +8,60 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private WorldPlatform platform;
-        [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
-        // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
-        private float _actionCooldown;
-        // Timer variable that is updated in Update() function and counts time until it reaches _actionCooldown
-        private float _currentActionCooldown; 
-        
-        private Vector2 _platformCoordinates;
-        private Queue<Vector2> _playerPath = new Queue<Vector2>();
-        
+        [SerializeField] private float defaultPlayerActionTime;
+        [SerializeField] private float hackerDelay;
+        [SerializeField] private HackerNPC hacker;
+
+        private float _currentActionCooldown; // Movement timer (updating in Update())
+        private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
+
+        public bool CanMoveNow => _currentActionCooldown <= 0;
+        
+        public int BarrierRadius { get; set; }
+        
+        public bool HasShield { get; set; }
+        
+        /// <summary>
+        /// Current X of platform on which player stands
+        /// </summary>
         public int PlayerPlatformX { get; set; }
+        
+        /// <summary>
+        /// Current Z of platform on which player stands
+        /// </summary>
         public int PlayerPlatformZ  { get; set; }
 
         /// <summary>
         /// A queue of coordinates which 
         /// </summary>
-        public Queue<Vector2> PlayerPath => _playerPath;
-
+        public Queue<Vector2Int> PlayerPath => _playerPath;
+        
+        /// <summary>
+        /// World object that has all information about the platforms
+        /// </summary>
         public WorldGenerator World { get; set; }
 
-        public float ActionCooldown
+        /// <summary>
+        /// Current max timer value
+        /// </summary>
+        public float ActionCooldown { get; set; }
+        
+        /// <summary>
+        /// Hacker that chases the player
+        /// </summary>
+        public HackerNPC Hacker { get; set; }
+
+        /// <summary>
+        /// Are inputs reversed by each axis separately? Called by DDOSEffect
+        /// </summary>
+        public bool AreInputsReversed { get; set; }
+
+        private void Update()
         {
-            get => _actionCooldown;
-            set => _actionCooldown = value;
+            if (_currentActionCooldown > 0)
+                _currentActionCooldown -= Time.deltaTime;
         }
 
         /// <summary>
@@ -46,12 +73,14 @@ namespace Player
             if (context.performed)
             {
                 // Get player input
+                if (!CanMoveNow)
+                    return;
+                
                 _moveInput = context.ReadValue<Vector2>();
-                
-                
+
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
-
+                
                 if (moveX != 0 && moveZ != 0)
                     return;
 
@@ -70,36 +99,72 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
                 {
-                    _playerPath.Enqueue(new Vector2(targetX, targetZ));
                     MoveSelfOnPlatform(targetX, targetZ);
+                    _currentActionCooldown = ActionCooldown;
                 }
             }
             
             int DefineWorldSide(float input)
             {
+                var value = 0;
                 if (input == 0)
-                    return 0;
+                    return value;
+                
                 if (input > 0)
-                    return 1;
-                return -1;
+                    value = -1;
+                else 
+                    value = 1;
+
+                if (AreInputsReversed)
+                    value *= -1;
+                return value;
             }
         }
         
         /// <summary>
-        /// Moves self on new coordinates after all checks
+        /// Moves self on x, z and checks if player losese
         /// </summary>
         /// <param name="x">target platform x coordinate</param>
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
-            _playerMoves += 1;
+            _playerPath.Enqueue(new Vector2Int(x, z));
             transform.position = World[x, z].PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
-            if (_playerMoves == 2)
-            {
 
+            // Init hacker if this input is first one
+            if (Hacker is not null)
+            {
+                if (Hacker.HasReachedPlayer())
+                    World.HandlePlayerLose();
+                return;
             }
+            
+            Hacker = Instantiate(hacker);
+            Hacker.CallOnHackerSpawn(World, this, hackerDelay);
+        }
+
+        public void ReturnOneStepBack()
+        {
+            var targetPosition = _playerPath.Dequeue();
+            MoveSelfOnPlatform(targetPosition.x, targetPosition.y);
+        }
+
+        public void HandleBarrierBlock()
+        {
+            // handle VFX
+            HasShield = false;
+        }
+
+        public void HandleOnInstantiation(WorldGenerator world)
+        {
+            ActionCooldown = defaultPlayerActionTime;
+            World = world;
+            
+            PlayerPlatformX = 0;
+            PlayerPlatformZ = 0;
+            transform.position = World[0, 0].PlayerPivot.position;
         }
     }
 }
