@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WorldGeneration;
@@ -10,33 +8,37 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private WorldPlatform platform;
         [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
-        // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
-        private float _actionCooldown;
-        // Timer variable that is updated in Update() function and counts time until it reaches _actionCooldown
-        private float _currentActionCooldown; 
-        
-        private Vector2 _platformCoordinates;
-        private Queue<Vector2Int> _playerPath = new Queue<Vector2Int>();
-        
+
+        private float _currentActionCooldown; // Movement timer (updating in Update())
+        private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
+        
+        /// <summary>
+        /// Current X of platform on which player stands
+        /// </summary>
         public int PlayerPlatformX { get; set; }
+        
+        /// <summary>
+        /// Current Z of platform on which player stands
+        /// </summary>
         public int PlayerPlatformZ  { get; set; }
 
         /// <summary>
         /// A queue of coordinates which 
         /// </summary>
         public Queue<Vector2Int> PlayerPath => _playerPath;
-
+        
+        /// <summary>
+        /// World object that has all information about the platforms
+        /// </summary>
         public WorldGenerator World { get; set; }
 
-        public float ActionCooldown
-        {
-            get => _actionCooldown;
-            set => _actionCooldown = value;
-        }
+        /// <summary>
+        /// Current max timer value
+        /// </summary>
+        public float ActionCooldown { get; set; }
 
         /// <summary>
         /// Checks if player can move in certain direction (south, west, north or east)

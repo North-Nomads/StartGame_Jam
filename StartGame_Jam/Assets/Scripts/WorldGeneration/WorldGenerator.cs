@@ -55,16 +55,6 @@ namespace WorldGeneration
             player.PlayerPlatformX = playerStartX;
             player.PlayerPlatformZ = playerStartZ;
             player.transform.position = _worldPlatforms[playerStartX, playerStartZ].PlayerPivot.position;
-            StartCoroutine(SpawnHacker());
-            
-        }
-
-        private IEnumerator SpawnHacker()
-        {
-            yield return new WaitForSeconds(5);
-            var hackernpc = Instantiate(hacker);
-            hackernpc.World = this;
-            hackernpc.transform.position = _worldPlatforms[0, _worldPlatforms.GetLength(1) / 2].PlayerPivot.position;
         }
 
         /// <summary>
