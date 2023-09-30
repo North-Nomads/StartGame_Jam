@@ -1,5 +1,9 @@
+using Player;
 using System;
+using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 namespace WorldGeneration
 {
@@ -9,31 +13,51 @@ namespace WorldGeneration
     public class WorldGenerator : MonoBehaviour
     {
         // Size of 2d array
-        [SerializeField] private int levelSizeZ;
         [SerializeField] private int levelSizeX;
+        [SerializeField] private int levelSizeZ;
         
         // Prefabs of platforms (index = id)
         [SerializeField] private WorldPlatform[] platformPrefabs;
         // Effects array that are sorted by their id
         [SerializeField] private PlatformEffect[] platformEffects;
-        
+        // Player prefab
+        [SerializeField] private PlayerMovement playerPrefab;
+
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
+
+        public WorldPlatform this[int x, int z]
+        {
+            get => _worldPlatforms[x, z];
+        }
+
+        /// <summary>
+        /// Gets the X-size of the level.
+        /// </summary>
+        public int LevelSizeX => levelSizeX;
+
+        /// <summary>
+        /// Gets the Z-size of the level.
+        /// </summary>
+        public int LevelSizeZ => levelSizeZ;
 
         private void Start()
         {
             // Read txt
+            LoadLevel(SceneManager.GetActiveScene().name + ".map");
             // Initialize level
             // Spawn player
-            throw new NotImplementedException();
+            var player = Instantiate(playerPrefab);
+            player.World = this;
+            player.transform.position = _worldPlatforms[0, _worldPlatforms.GetLength(1) / 2].PlayerPivot.position;
         }
 
         /// <summary>
-        /// Checks if platform on (x, z)
+        /// Checks if platform on (x, z) is reachable.
         /// </summary>
-        /// <param name="x">the X coordinate in 2D array</param>
-        /// <param name="z">the Z coordinate in 2D array</param>
-        /// <returns>True if target platform isReachable == true</returns>
+        /// <param name="x">The X coordinate in the 2D array</param>
+        /// <param name="z">The Z coordinate in the 2D array</param>
+        /// <returns><see langword="true"/> if the platform is reachable.</returns>
         public bool AreCoordinatesReachable(int x, int z)
         {
             if (x >= levelSizeX || x < 0)
@@ -43,6 +67,43 @@ namespace WorldGeneration
                 return false;
                 
             return _worldPlatforms[x, z].IsReachable;
+        }
+
+        /// <summary>
+        /// Loads the level from its binary file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void LoadLevel(string filePath)
+        {
+            using Stream stream = File.OpenRead(Path.Combine(Application.dataPath, "Resources", "Levels", filePath));
+            using BinaryReader reader = new(stream);
+            levelSizeX = reader.ReadByte();
+            levelSizeZ = reader.ReadByte();
+            _worldPlatforms = new WorldPlatform[levelSizeX, levelSizeZ];
+            for (int i = 0; i < levelSizeX; i++)
+            {
+                for (int j = 0; j < levelSizeZ; j++)
+                {
+                    byte id = reader.ReadByte();
+                    var tile = Instantiate(platformPrefabs[id]);
+                    tile.transform.position = new Vector3(i, 0, j);
+                    tile.X = i;
+                    tile.Z = j;
+                    _worldPlatforms[i, j] = tile;
+                }
+            }
+            for (int i = 0; i < levelSizeX; i++)
+            {
+                for (int j = 0; j < levelSizeZ; j++)
+                {
+                    byte id = reader.ReadByte();
+                    if (id != 0)
+                    {
+                        var effect = platformEffects[id];
+                        _worldPlatforms[i, j].Effect = effect;
+                    }
+                }
+            }
         }
 
         public PlatformEffect GetPlatformEffect(int x, int z)
