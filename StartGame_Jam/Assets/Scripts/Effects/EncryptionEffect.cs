@@ -12,12 +12,19 @@ namespace Effects
         
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            // player.hacker.actiontimer = newHackerAnimationTime
+            if (player.HasShield)
+            {
+                player.HandleBarrierBlock();
+                return;
+            }
+
+            player.Hacker.ActionTimer = newHackerAnimationTime;
             StartCoroutine(WaitForTime());
 
             IEnumerator WaitForTime()
             {
                 yield return new WaitForSeconds(boostTime);
+                player.Hacker.ActionTimer = player.Hacker.DefaultActionTimer;
             }
         }
     }

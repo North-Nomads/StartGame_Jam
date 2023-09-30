@@ -12,6 +12,12 @@ namespace Effects
 
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
+            if (player.HasShield)
+            {
+                player.HandleBarrierBlock();
+                return;
+            }
+
             var mainCamera = Camera.main;
             var cameraStartSize = mainCamera.orthographicSize;
             mainCamera.orthographicSize = targetCameraZoomSize;
