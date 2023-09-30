@@ -51,6 +51,11 @@ namespace Player
         public HackerNPC Hacker { get; set; }
 
         /// <summary>
+        /// Are inputs reversed by each axis separately? Called by DDOSEffect
+        /// </summary>
+        public bool AreInputsReversed { get; set; }
+
+        /// <summary>
         /// Checks if player can move in certain direction (south, west, north or east)
         /// Called from InputSystem
         /// </summary>
@@ -64,7 +69,7 @@ namespace Player
                 
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
-
+                
                 if (moveX != 0 && moveZ != 0)
                     return;
 
@@ -82,18 +87,23 @@ namespace Player
                 // Check if target platform is available to be stand on
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
-                {
                     MoveSelfOnPlatform(targetX, targetZ);
-                }
             }
             
             int DefineWorldSide(float input)
             {
+                var value = 0;
                 if (input == 0)
-                    return 0;
+                    return value;
+                
                 if (input > 0)
-                    return 1;
-                return -1;
+                    value = 1;
+                else 
+                    value = -1;
+
+                if (AreInputsReversed)
+                    value *= -1;
+                return value;
             }
         }
         

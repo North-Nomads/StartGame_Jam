@@ -17,13 +17,13 @@ namespace Effects
                 return;
             }
             
-            // set player inversed bool -> True 
+            player.AreInputsReversed = true;
             StartCoroutine(WaitForDuration());
 
             IEnumerator WaitForDuration()
             {
                 yield return new WaitForSeconds(effectDuration);
-                // set player inversed bool -> False
+                player.AreInputsReversed = false;
             }
         }
     }
