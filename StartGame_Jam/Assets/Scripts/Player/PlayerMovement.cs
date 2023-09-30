@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WorldGeneration;
@@ -9,7 +8,6 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
 
