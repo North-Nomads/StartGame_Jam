@@ -22,7 +22,6 @@ namespace WorldGeneration
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
         // HackerNPC prefab
-        [SerializeField] private HackerNPC hacker;
 
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
@@ -55,23 +54,6 @@ namespace WorldGeneration
             player.PlayerPlatformX = playerStartX;
             player.PlayerPlatformZ = playerStartZ;
             player.transform.position = _worldPlatforms[playerStartX, playerStartZ].PlayerPivot.position;
-        }
-
-        /// <summary>
-        /// Checks if platform on (x, z) is reachable.
-        /// </summary>
-        /// <param name="x">The X coordinate in the 2D array</param>
-        /// <param name="z">The Z coordinate in the 2D array</param>
-        /// <returns><see langword="true"/> if the platform is reachable.</returns>
-        public bool AreCoordinatesReachable(int x, int z)
-        {
-            if (x >= levelSizeX || x < 0)
-                return false;
-            
-            if (z >= levelSizeZ || z < 0)
-                return false;
-                
-            return _worldPlatforms[x, z].IsReachable;
         }
 
         /// <summary>
@@ -111,9 +93,10 @@ namespace WorldGeneration
             }
         }
 
-        public PlatformEffect GetPlatformEffect(int x, int z)
+        public void HandlePlayerLose()
         {
-            return _worldPlatforms[x, z].Effect;
+            print("Player lost");
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -5,53 +5,55 @@ namespace Player
 {
     public class HackerNPC : MonoBehaviour
     {
-        [SerializeField] private PlayerMovement targetPlayer;
+        [SerializeField] private float defaultActionTimer;
+        private float _currentActionTimer;
+        private Vector2Int _hackerPosition;
         
-        [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
-        private bool IsdefaultActionCooldown => _currentActionCooldown > 0;
-        // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
-        private float _actionCooldown;
-        // Timer variable that is updated in Update() function and counts time until it reaches _actionCooldown
-        private float _currentActionCooldown;
-
+        public PlayerMovement TargetPlayer { get; set; }
         public WorldGenerator World { get; set; }
-        private void Start()
-        {
-            _currentActionCooldown = defaultActionCooldown;
-        }
+        public float ActionTimer { get; set; }
+
         private void Update()
         {
-            if (IsdefaultActionCooldown)
+            if (_currentActionTimer > 0)
             {
-                _currentActionCooldown -= Time.deltaTime;
-            }
-            else 
-            {
-                MoveOnNextPlatform();
-                _currentActionCooldown = defaultActionCooldown;
+                _currentActionTimer -= Time.deltaTime;
+                return;
             }
 
+            MoveOnNextPlatform();
+            _currentActionTimer = ActionTimer;
         }
 
         private void MoveOnNextPlatform()
         {
-            if (targetPlayer.PlayerPath == null)
-                return;
-            Vector2Int platform = targetPlayer.PlayerPath.Dequeue();
-            transform.position = World[platform.x, platform.y].PlayerPivot.position;
-            // Get player path Queue 
-            // Move On it
-            // Check if player was caught (game finishes)
-            // Reset cooldown
+            var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
+            transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;
+            _hackerPosition = targetPlatform;
+            
+            if (HasReachedPlayer())
+                World.HandlePlayerLose();
         }
 
         /// <summary>
         /// Checks if hacker is on the same platform as player
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Is player platform == hacker platform</returns>
         private bool HasReachedPlayer()
         {
-            return false;
+            var playerPosition = new Vector2Int(TargetPlayer.PlayerPlatformX, TargetPlayer.PlayerPlatformZ);
+            return playerPosition == _hackerPosition;
+        }
+
+        public void CallOnHackerSpawn(Vector2Int startPosition, WorldGenerator world, PlayerMovement playerMovement)
+        {
+            TargetPlayer = playerMovement;
+            World = world;
+            
+            transform.position = World[startPosition.x, startPosition.y].PlayerPivot.position;
+            _hackerPosition = startPosition;
+            ActionTimer = defaultActionTimer;
+            _currentActionTimer = ActionTimer;
         }
     }
 }

@@ -120,5 +120,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4bb89593bf64d29bb7007dd03579332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayer: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
-  defaultActionCooldown: 5
+  defaultActionTimer: 0.3

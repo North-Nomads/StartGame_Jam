@@ -9,6 +9,8 @@ namespace Player
     public class PlayerMovement : MonoBehaviour
     {
         [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
+        [SerializeField] private float hackerDelay;
+        [SerializeField] private HackerNPC hacker;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
@@ -39,6 +41,11 @@ namespace Player
         /// Current max timer value
         /// </summary>
         public float ActionCooldown { get; set; }
+        
+        /// <summary>
+        /// Hacker that chases the player
+        /// </summary>
+        public HackerNPC Hacker { get; set; }
 
         /// <summary>
         /// Checks if player can move in certain direction (south, west, north or east)
@@ -98,6 +105,12 @@ namespace Player
             transform.position = World[x, z].PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
+
+            if (Hacker is not null)
+                return;
+            
+            Hacker = Instantiate(hacker);
+            Hacker.CallOnHackerSpawn(_playerPath.Peek(), World, this);
         }
     }
 }
