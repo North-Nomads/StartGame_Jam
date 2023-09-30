@@ -6,10 +6,12 @@ namespace Player
     public class HackerNPC : MonoBehaviour
     {
         [SerializeField] private float defaultActionTimer;
+        
         private float _currentActionTimer;
         private Vector2Int _hackerPosition;
         private float _startDelay;
 
+        public float DefaultActionTimer => defaultActionTimer;
         public PlayerMovement TargetPlayer { get; set; }
         public WorldGenerator World { get; set; }
         public float ActionTimer { get; set; }

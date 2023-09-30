@@ -18,12 +18,13 @@ namespace Effects
                 return;
             }
 
-            // player.hacker.actiontimer = newHackerAnimationTime
+            player.Hacker.ActionTimer = newHackerAnimationTime;
             StartCoroutine(WaitForTime());
 
             IEnumerator WaitForTime()
             {
                 yield return new WaitForSeconds(boostTime);
+                player.Hacker.ActionTimer = player.Hacker.DefaultActionTimer;
             }
         }
     }
