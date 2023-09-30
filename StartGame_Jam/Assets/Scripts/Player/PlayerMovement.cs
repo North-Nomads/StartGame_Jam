@@ -9,13 +9,9 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private WorldGenerator world;
-        [SerializeField] private WorldPlatform platform;
-        private Vector2 _moveInput;
-
         [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
         // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
-        private float _actionCooldown; 
+        private float _actionCooldown;
         // Timer variable that is updated in Update() function and counts time until it reaches _actionCooldown
         private float _currentActionCooldown; 
         
@@ -32,6 +28,8 @@ namespace Player
         /// Current coordinate of the platform on which player stands  
         /// </summary>
         public Vector2 PlatformCoordinates => _platformCoordinates;
+
+        public WorldGenerator World { get; set; }
 
         /// <summary>
         /// Checks if player can move in certain direction (south, west, north or east)
