@@ -46,11 +46,7 @@ namespace WorldGeneration
             
             // Spawn player
             var player = Instantiate(playerPrefab);
-            player.World = this;
-            
-            player.PlayerPlatformX = 0;
-            player.PlayerPlatformZ = 0;
-            player.transform.position = _worldPlatforms[0, 0].PlayerPivot.position;
+            player.HandleOnInstantiation(this);
         }
 
         /// <summary>

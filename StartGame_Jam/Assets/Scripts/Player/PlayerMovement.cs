@@ -8,6 +8,7 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        [SerializeField] private float defaultPlayerActionTime;
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
 
@@ -15,6 +16,8 @@ namespace Player
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
+
+        public bool CanMoveNow => _currentActionCooldown <= 0;
         
         public int BarrierRadius { get; set; }
         
@@ -55,6 +58,12 @@ namespace Player
         /// </summary>
         public bool AreInputsReversed { get; set; }
 
+        private void Update()
+        {
+            if (_currentActionCooldown > 0)
+                _currentActionCooldown -= Time.deltaTime;
+        }
+
         /// <summary>
         /// Checks if player can move in certain direction (south, west, north or east)
         /// Called from InputSystem
@@ -64,9 +73,11 @@ namespace Player
             if (context.performed)
             {
                 // Get player input
+                if (!CanMoveNow)
+                    return;
+                
                 _moveInput = context.ReadValue<Vector2>();
-                
-                
+
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
                 
@@ -87,7 +98,10 @@ namespace Player
                 // Check if target platform is available to be stand on
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
+                {
                     MoveSelfOnPlatform(targetX, targetZ);
+                    _currentActionCooldown = ActionCooldown;
+                }
             }
             
             int DefineWorldSide(float input)
@@ -141,6 +155,16 @@ namespace Player
         {
             // handle VFX
             HasShield = false;
+        }
+
+        public void HandleOnInstantiation(WorldGenerator world)
+        {
+            ActionCooldown = defaultPlayerActionTime;
+            World = world;
+            
+            PlayerPlatformX = 0;
+            PlayerPlatformZ = 0;
+            transform.position = World[0, 0].PlayerPivot.position;
         }
     }
 }

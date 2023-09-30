@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d27d4b9fb44ebb902c122ce38f918d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultActionCooldown: 1
+  defaultPlayerActionTime: 0.16
   hackerDelay: 5
   hacker: {fileID: 7345821754778304642, guid: 469f2e24a76af844f9691a8c2ae56436, type: 3}
 --- !u!114 &6470784666628600029
