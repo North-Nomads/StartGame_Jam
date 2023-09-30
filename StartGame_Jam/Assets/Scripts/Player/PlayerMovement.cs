@@ -9,6 +9,8 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        private Vector2 _moveInput;
+        [SerializeField] private WorldPlatform platform;
         [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
         // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
         private float _actionCooldown;
@@ -18,6 +20,9 @@ namespace Player
         private Vector2 _platformCoordinates;
 
         private Queue<Vector2> _playerPath;
+
+        private int X;
+        private int Z;
 
         /// <summary>
         /// A queue of coordinates which 
@@ -40,12 +45,8 @@ namespace Player
             if (context.performed)
             {
                 _moveInput = context.ReadValue<Vector2>();
-                Vector2 newPlayerpos = new Vector2(transform.position.x + _moveInput.x, transform.position.y + _moveInput.y);
-                platform.PlayerPivot.position = newPlayerpos;
-                if (platform.IsReachable)
-                {
-                    MoveSelfOnPlatform((int)_moveInput.x, (int)_moveInput.y);
-                }
+                if (World[X + (int) _moveInput.x, Z + (int)_moveInput.y].IsReachable)
+                    MoveSelfOnPlatform(X + (int)_moveInput.x, Z + (int)_moveInput.y);
             }
             // Get player input
             // Transform input into Vector2 
@@ -61,7 +62,7 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
-            transform.position = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+            transform.position = World[x, z].PlayerPivot.position;
         }
     }
 }
