@@ -20,19 +20,14 @@ namespace Player
         private Vector2 _platformCoordinates;
 
         private Queue<Vector2> _playerPath;
-
-        private int X;
-        private int Z;
+        
+        public int PlayerPlatformX { get; set; }
+        public int PlayerPlatformZ  { get; set; }
 
         /// <summary>
         /// A queue of coordinates which 
         /// </summary>
         public Queue<Vector2> PlayerPath => _playerPath;
-
-        /// <summary>
-        /// Current coordinate of the platform on which player stands  
-        /// </summary>
-        public Vector2 PlatformCoordinates => _platformCoordinates;
 
         public WorldGenerator World { get; set; }
 
@@ -42,17 +37,43 @@ namespace Player
         /// </summary>
         public void OnTryMovingSelfOnPlatform(InputAction.CallbackContext context)
         {
+            print("Input");
             if (context.performed)
             {
+                // Get player input
+                print("Movement action");
                 _moveInput = context.ReadValue<Vector2>();
-                if (World[X + (int) _moveInput.x, Z + (int)_moveInput.y].IsReachable)
-                    MoveSelfOnPlatform(X + (int)_moveInput.x, Z + (int)_moveInput.y);
+                
+                
+                int moveX = DefineWorldSide(_moveInput.x);
+                int moveZ = DefineWorldSide(_moveInput.y);
+                
+                int targetX = PlayerPlatformX + moveX;
+                int targetZ = PlayerPlatformZ + moveZ;
+                
+                if (targetX < 0 || targetX > World.LevelSizeX)
+                    return;
+                
+                if (targetZ < 0 || targetZ > World.LevelSizeZ)
+                    return;
+                
+                // Calculate target platform position
+                var targetPlatform = World[moveX, moveZ];
+                
+                // Check if target platform is available to be stand on
+                // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
+                if (targetPlatform.IsReachable)
+                    MoveSelfOnPlatform(targetX, targetZ);
             }
-            // Get player input
-            // Transform input into Vector2 
-            // Calculate target platform position
-            // Check if target platform is available to be stand on
-            // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
+            
+            int DefineWorldSide(float input)
+            {
+                if (input == 0)
+                    return 0;
+                if (input > 0)
+                    return 1;
+                return -1;
+            }
         }
         
         /// <summary>
