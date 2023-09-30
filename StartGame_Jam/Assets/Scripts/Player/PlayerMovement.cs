@@ -58,6 +58,8 @@ namespace Player
         /// </summary>
         public bool AreInputsReversed { get; set; }
 
+        public bool HasBarrier => BarrierRadius > 0;
+
         private void Update()
         {
             if (_currentActionCooldown > 0)

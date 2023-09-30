@@ -39,7 +39,7 @@ namespace Player
             // DEBUG ONLY 
             // Disable error throwing on player caught
             if (HasReachedPlayer())
-                return;
+                World.HandlePlayerLose();
 
             var possibleTarget = TargetPlayer.PlayerPath.Peek();
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
@@ -48,7 +48,7 @@ namespace Player
             var barrierRadius = TargetPlayer.BarrierRadius;
             
             // If target platform is in the barrier radius 
-            if (xDistance <= barrierRadius && zDistance <= barrierRadius)
+            if (xDistance <= barrierRadius && zDistance <= barrierRadius && TargetPlayer.HasBarrier)
                 return;
             
             var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
