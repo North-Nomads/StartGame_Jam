@@ -33,6 +33,6 @@ namespace WorldGeneration
         /// <summary>
         /// Effect that is applied when player stands on the platform
         /// </summary>
-        public IPlatformEffect Effect { get; set; }
+        public PlatformEffect Effect { get; set; }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Player;
-using UnityEngine;
 using WorldGeneration;
 
 namespace Effects
 {
-    public class MusicEffect : MonoBehaviour, IPlatformEffect
+    public class MusicEffect : PlatformEffect
     {
-        public void ExecuteOnPickUp(PlayerMovement player)
+        public override void ExecuteOnPickUp(PlayerMovement player)
         {
             throw new System.NotImplementedException();
         }

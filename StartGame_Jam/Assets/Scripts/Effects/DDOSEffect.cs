@@ -1,12 +1,11 @@
 ﻿using Player;
-using UnityEngine;
 using WorldGeneration;
 
 namespace Effects
 {
-    public class DDOSEffect : MonoBehaviour, IPlatformEffect
+    public class DDOSEffect : PlatformEffect
     {
-        public void ExecuteOnPickUp(PlayerMovement player)
+        public override void ExecuteOnPickUp(PlayerMovement player)
         {
             throw new System.NotImplementedException();
         }

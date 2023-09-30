@@ -1,9 +1,10 @@
 ﻿using Player;
+using UnityEngine;
 
 namespace WorldGeneration
 {
-    public interface IPlatformEffect
+    public abstract class PlatformEffect : MonoBehaviour  
     {
-        public void ExecuteOnPickUp(PlayerMovement player);
+        public abstract void ExecuteOnPickUp(PlayerMovement player);
     }
 }

@@ -4,9 +4,9 @@ using WorldGeneration;
 
 namespace Effects
 {
-    public class EncryptionEffect : MonoBehaviour, IPlatformEffect
+    public class EncryptionEffect : PlatformEffect
     {
-        public void ExecuteOnPickUp(PlayerMovement player)
+        public override void ExecuteOnPickUp(PlayerMovement player)
         {
             throw new System.NotImplementedException();
         }

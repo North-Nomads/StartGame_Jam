@@ -1,10 +1,8 @@
 using Player;
-using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 
 namespace WorldGeneration
 {
@@ -20,7 +18,7 @@ namespace WorldGeneration
         // Prefabs of platforms (index = id)
         [SerializeField] private WorldPlatform[] platformPrefabs;
         // Effects array that are sorted by their id
-        [SerializeField] private IPlatformEffect[] platformEffects;
+        [SerializeField] private PlatformEffect[] platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
         // HackerNPC prefab
@@ -123,7 +121,7 @@ namespace WorldGeneration
             }
         }
 
-        public IPlatformEffect GetPlatformEffect(int x, int z)
+        public PlatformEffect GetPlatformEffect(int x, int z)
         {
             return _worldPlatforms[x, z].Effect;
         }

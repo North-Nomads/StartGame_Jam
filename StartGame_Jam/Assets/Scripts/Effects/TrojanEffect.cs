@@ -5,14 +5,14 @@ using WorldGeneration;
 
 namespace Effects
 {
-    public class TrojanEffect : MonoBehaviour, IPlatformEffect
+    public class TrojanEffect : PlatformEffect
     {
         [SerializeField] private float effectDuration;
         [SerializeField] private float effectPower;
 
         private PlayerMovement _player;
         
-        public void ExecuteOnPickUp(PlayerMovement player)
+        public override void ExecuteOnPickUp(PlayerMovement player)
         {
             player.ActionCooldown *= effectPower;
 
