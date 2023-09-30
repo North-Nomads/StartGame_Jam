@@ -24,9 +24,8 @@ namespace Effects
                 {
                     if (queue.Count == 0)
                         yield break;
-
-                    var last = queue.Dequeue();
-                    // move player on last, check if he is got by hacker
+                    
+                    player.ReturnOneStepBack();
                     yield return new WaitForSeconds(timeBetweenSteps);
                 }
             }

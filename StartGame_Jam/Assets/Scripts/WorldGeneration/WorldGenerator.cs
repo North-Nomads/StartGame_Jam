@@ -48,12 +48,9 @@ namespace WorldGeneration
             var player = Instantiate(playerPrefab);
             player.World = this;
             
-            int playerStartX = 0;
-            int playerStartZ = _worldPlatforms.GetLength(1) / 2;
-            
-            player.PlayerPlatformX = playerStartX;
-            player.PlayerPlatformZ = playerStartZ;
-            player.transform.position = _worldPlatforms[playerStartX, playerStartZ].PlayerPivot.position;
+            player.PlayerPlatformX = 0;
+            player.PlayerPlatformZ = 0;
+            player.transform.position = _worldPlatforms[0, 0].PlayerPivot.position;
         }
 
         /// <summary>
