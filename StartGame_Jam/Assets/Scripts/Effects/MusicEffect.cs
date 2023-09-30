@@ -7,7 +7,7 @@ namespace Effects
     {
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            player.HasBarrier = true;
+            player.HasShield = true;
         }
     }
 }

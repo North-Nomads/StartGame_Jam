@@ -16,7 +16,9 @@ namespace Player
         private Vector2 _moveInput;
         private int _playerMoves;
         
-        public bool HasBarrier { get; set; }
+        public int BarrierRadius { get; set; }
+        
+        public bool HasShield { get; set; }
         
         /// <summary>
         /// Current X of platform on which player stands
@@ -138,7 +140,7 @@ namespace Player
         public void HandleBarrierBlock()
         {
             // handle VFX
-            HasBarrier = false;
+            HasShield = false;
         }
     }
 }

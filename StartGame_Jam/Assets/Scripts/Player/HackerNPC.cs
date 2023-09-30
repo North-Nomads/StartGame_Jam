@@ -40,6 +40,16 @@ namespace Player
             // Disable error throwing on player caught
             if (HasReachedPlayer())
                 return;
+
+            var possibleTarget = TargetPlayer.PlayerPath.Peek();
+            var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
+            var zDistance = Mathf.Abs(TargetPlayer.PlayerPlatformZ - possibleTarget.y);
+
+            var barrierRadius = TargetPlayer.BarrierRadius;
+            
+            // If target platform is in the barrier radius 
+            if (xDistance <= barrierRadius && zDistance <= barrierRadius)
+                return;
             
             var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
             transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;

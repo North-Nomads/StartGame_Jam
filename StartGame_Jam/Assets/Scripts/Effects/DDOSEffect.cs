@@ -11,7 +11,7 @@ namespace Effects
         
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
-            if (player.HasBarrier)
+            if (player.HasShield)
             {
                 player.HandleBarrierBlock();
                 return;
