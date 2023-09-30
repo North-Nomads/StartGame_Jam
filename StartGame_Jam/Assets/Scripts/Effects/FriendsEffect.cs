@@ -17,7 +17,7 @@ namespace Effects
             IEnumerator WaitForDuration()
             {
                 yield return new WaitForSeconds(effectDuration);
-                // player.hacker.BarrierRadius = 0; 
+                player.BarrierRadius = 0; 
             }
         }
     }
