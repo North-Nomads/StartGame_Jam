@@ -1,5 +1,6 @@
 using Player;
 using System;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ namespace WorldGeneration
         [SerializeField] private PlatformEffect[] platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
+        // HackerNPC prefab
+        [SerializeField] private HackerNPC hacker;
 
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
@@ -54,6 +57,16 @@ namespace WorldGeneration
             player.PlayerPlatformX = playerStartX;
             player.PlayerPlatformZ = playerStartZ;
             player.transform.position = _worldPlatforms[playerStartX, playerStartZ].PlayerPivot.position;
+            StartCoroutine(SpawnHacker());
+            
+        }
+
+        private IEnumerator SpawnHacker()
+        {
+            yield return new WaitForSeconds(5);
+            var hackernpc = Instantiate(hacker);
+            hackernpc.World = this;
+            hackernpc.transform.position = _worldPlatforms[0, _worldPlatforms.GetLength(1) / 2].PlayerPivot.position;
         }
 
         /// <summary>

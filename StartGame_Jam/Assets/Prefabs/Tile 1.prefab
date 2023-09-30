@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 3751754940276557289}
-  isReachable: 0
+  isReachable: 1
 --- !u!1 &8026374169217497290
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace Player
     public class PlayerMovement : MonoBehaviour
     {
         private Vector2 _moveInput;
+        private int _playerMoves;
         [SerializeField] private WorldPlatform platform;
         [Tooltip("Default time between player actions"), SerializeField] private float defaultActionCooldown;
         // Action cooldown is a max cooldown time between actions that can be overwritten (boosted or slowed)
@@ -19,7 +20,7 @@ namespace Player
         
         private Vector2 _platformCoordinates;
 
-        private Queue<Vector2> _playerPath;
+        private Queue<Vector2> _playerPath = new Queue<Vector2>();
         
         public int PlayerPlatformX { get; set; }
         public int PlayerPlatformZ  { get; set; }
@@ -37,17 +38,18 @@ namespace Player
         /// </summary>
         public void OnTryMovingSelfOnPlatform(InputAction.CallbackContext context)
         {
-            print("Input");
             if (context.performed)
             {
                 // Get player input
-                print("Movement action");
                 _moveInput = context.ReadValue<Vector2>();
                 
                 
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
-                
+
+                if (moveX != 0 && moveZ != 0)
+                    return;
+
                 int targetX = PlayerPlatformX + moveX;
                 int targetZ = PlayerPlatformZ + moveZ;
                 
@@ -56,14 +58,16 @@ namespace Player
                 
                 if (targetZ < 0 || targetZ > World.LevelSizeZ)
                     return;
-                
                 // Calculate target platform position
-                var targetPlatform = World[moveX, moveZ];
-                
+                var targetPlatform = World[targetX, targetZ];
+
                 // Check if target platform is available to be stand on
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
+                {
+                    _playerPath.Enqueue(new Vector2(targetX, targetZ));
                     MoveSelfOnPlatform(targetX, targetZ);
+                }
             }
             
             int DefineWorldSide(float input)
@@ -83,7 +87,14 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
+            _playerMoves += 1;
             transform.position = World[x, z].PlayerPivot.position;
+            PlayerPlatformX = x;
+            PlayerPlatformZ = z;
+            if (_playerMoves == 2)
+            {
+
+            }
         }
     }
 }
