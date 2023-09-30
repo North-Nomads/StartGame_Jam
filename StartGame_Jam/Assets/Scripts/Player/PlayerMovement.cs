@@ -111,9 +111,9 @@ namespace Player
                     return value;
                 
                 if (input > 0)
-                    value = 1;
-                else 
                     value = -1;
+                else 
+                    value = 1;
 
                 if (AreInputsReversed)
                     value *= -1;
