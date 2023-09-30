@@ -176,6 +176,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
+  hacker: {fileID: 7345821754778304642, guid: 469f2e24a76af844f9691a8c2ae56436, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

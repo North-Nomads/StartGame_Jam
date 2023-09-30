@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,7 +21,7 @@ namespace Player
         
         private Vector2 _platformCoordinates;
 
-        private Queue<Vector2> _playerPath = new Queue<Vector2>();
+        private Queue<Vector2Int> _playerPath = new Queue<Vector2Int>();
         
         public int PlayerPlatformX { get; set; }
         public int PlayerPlatformZ  { get; set; }
@@ -28,7 +29,7 @@ namespace Player
         /// <summary>
         /// A queue of coordinates which 
         /// </summary>
-        public Queue<Vector2> PlayerPath => _playerPath;
+        public Queue<Vector2Int> PlayerPath => _playerPath;
 
         public WorldGenerator World { get; set; }
 
@@ -65,7 +66,7 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
                 {
-                    _playerPath.Enqueue(new Vector2(targetX, targetZ));
+                    _playerPath.Enqueue(new Vector2Int(targetX, targetZ));
                     MoveSelfOnPlatform(targetX, targetZ);
                 }
             }
@@ -87,14 +88,9 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
-            _playerMoves += 1;
             transform.position = World[x, z].PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
-            if (_playerMoves == 2)
-            {
-
-            }
         }
     }
 }
