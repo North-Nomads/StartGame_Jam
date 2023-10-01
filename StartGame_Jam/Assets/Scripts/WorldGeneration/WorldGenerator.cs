@@ -72,7 +72,6 @@ namespace WorldGeneration
 
             // Spawn the player
             _player = Instantiate(playerPrefab);
-            _player.EndGameMenu = endGameMenu;
             _player.HandleOnInstantiation(this);
 
             LevelJudge.WinLoseScreen = endGameMenu;
@@ -117,12 +116,6 @@ namespace WorldGeneration
                     _worldPlatforms[i, j] = tile;
                 }
             }
-        }
-
-        public void HandlePlayerLose()
-        {
-            print("Player lost");
-            throw new System.NotImplementedException();
         }
     }
 }

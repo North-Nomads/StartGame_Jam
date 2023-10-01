@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Level;
+using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -61,8 +62,6 @@ namespace Player
         public bool AreInputsReversed { get; set; }
 
         public bool HasBarrier => BarrierRadius > 0;
-
-        public EndGameMenu EndGameMenu { get; set; }
 
         private void Update()
         {
@@ -144,15 +143,11 @@ namespace Player
             PlayerPlatformZ = z;
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
-                EndGameMenu.ShowWinMenu();
+                LevelJudge.WinLoseScreen.ShowWinMenu();
             
             // Init hacker if this input is first one
             if (Hacker is not null)
-            {
-                if (Hacker.HasReachedPlayer())
-                    World.HandlePlayerLose();
                 return;
-            }
             
             Hacker = Instantiate(hacker);
             Hacker.CallOnHackerSpawn(World, this, hackerDelay);
