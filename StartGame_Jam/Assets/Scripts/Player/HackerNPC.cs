@@ -1,4 +1,5 @@
-﻿using Level;
+﻿using System.Collections;
+using Level;
 using UnityEngine;
 using WorldGeneration;
 
@@ -54,9 +55,20 @@ namespace Player
             var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
             transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;
             _hackerPosition = targetPlatform;
-            
+
             if (HasReachedPlayer())
-                LevelJudge.WinLoseScreen.ShowLoseMenu();
+            {
+                LevelJudge.PauseMenu.TakeAwayPlayerControls();
+                animator.SetTrigger("Attack");
+
+                StartCoroutine(WaitForKillAnimation());
+                
+                IEnumerator WaitForKillAnimation()
+                {
+                    yield return new WaitForSeconds(1f);
+                    LevelJudge.WinLoseScreen.ShowLoseMenu();
+                }
+            }
         }
 
         /// <summary>
