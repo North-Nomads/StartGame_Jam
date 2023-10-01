@@ -36,7 +36,7 @@ namespace UI
             }
         }
 
-        private void PauseGame()
+        public void PauseGame()
         {
             _isPaused = true;
             content.gameObject.SetActive(true);
