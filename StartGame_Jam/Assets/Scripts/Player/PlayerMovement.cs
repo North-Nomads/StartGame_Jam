@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -137,7 +138,8 @@ namespace Player
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
             _playerPath.Enqueue(new Vector2Int(x, z));
-            transform.position = World[x, z].PlayerPivot.position;
+
+            StartCoroutine(PerformMovingTowardsTarget());
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
 
@@ -154,6 +156,23 @@ namespace Player
             
             Hacker = Instantiate(hacker);
             Hacker.CallOnHackerSpawn(World, this, hackerDelay);
+
+            IEnumerator PerformMovingTowardsTarget()
+            {
+                var target = World[x, z].PlayerPivot.position;
+                var distance = target - transform.position;
+
+                var delta = distance / ActionCooldown;
+                
+                var time = 0f;
+
+                while (time < ActionCooldown)
+                {
+                    transform.position += delta * Time.deltaTime;
+                    time += Time.deltaTime;
+                    yield return null;                
+                }
+            }
         }
 
         public void ReturnOneStepBack()
