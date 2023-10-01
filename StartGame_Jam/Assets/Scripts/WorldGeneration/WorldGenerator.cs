@@ -70,7 +70,7 @@ namespace WorldGeneration
             int version = reader.ReadInt32();
             Debug.Log($"Opened world saved in editor version key: {version}");
             _worldPlatforms = new WorldPlatform[_levelSizeX, _levelSizeZ];
-            for (int j = 0; j < _levelSizeZ; j++) 
+            for (int j = 0; j < _levelSizeZ; j++)
             {
                 for (int i = 0; i < _levelSizeX; i++)
                 {
@@ -78,7 +78,7 @@ namespace WorldGeneration
                     byte effectId = reader.ReadByte();
                     PlatformFlags flags = (PlatformFlags)reader.ReadByte();
                     int rotation = 0;
-                    if ((flags & PlatformFlags.RotateBy90) != 0) 
+                    if ((flags & PlatformFlags.RotateBy90) != 0)
                         rotation += 90;
                     if ((flags & PlatformFlags.RotateBy180) != 0)
                         rotation += 180;
@@ -92,12 +92,6 @@ namespace WorldGeneration
                     _worldPlatforms[i, j] = tile;
                 }
             }
-        }
-
-        public void HandlePlayerLose()
-        {
-            print("Player lost");
-            throw new System.NotImplementedException();
         }
     }
 }

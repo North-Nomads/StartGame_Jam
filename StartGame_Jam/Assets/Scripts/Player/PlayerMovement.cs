@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Level;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -93,10 +94,10 @@ namespace Player
                 int targetX = PlayerPlatformX + moveX;
                 int targetZ = PlayerPlatformZ + moveZ;
                 
-                if (targetX < 0 || targetX > World.LevelSizeX)
+                if (targetX < 0 || targetX >= World.LevelSizeX)
                     return;
                 
-                if (targetZ < 0 || targetZ > World.LevelSizeZ)
+                if (targetZ < 0 || targetZ >= World.LevelSizeZ)
                     return;
                 // Calculate target platform position
                 var targetPlatform = World[targetX, targetZ];
@@ -134,6 +135,7 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
+            print(World.FinishPosition);
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
             _playerPath.Enqueue(new Vector2Int(x, z));
@@ -143,16 +145,12 @@ namespace Player
             PlayerPlatformZ = z;
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
-                _endGameMenu.ShowWinMenu();
+                LevelJudge.WinLoseScreen.ShowWinMenu();
             
             // Init hacker if this input is first one
             if (Hacker is not null)
-            {
-                if (Hacker.HasReachedPlayer())
-                    World.HandlePlayerLose();
                 return;
-            }
-            
+
             Hacker = Instantiate(hacker);
             Hacker.CallOnHackerSpawn(World, this, hackerDelay);
 
