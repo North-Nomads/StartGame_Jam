@@ -1,4 +1,6 @@
-﻿using UI;
+﻿using System.IO;
+using System.Linq;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,16 +13,13 @@ namespace Level
 
         private void Start()
         {
-            var totalLevels = SceneManager.sceneCountInBuildSettings;
-
-            print("Start");
-            // i = 2 because (id)0 = main menu; (id)1 = levels scene
-            for (int i = 2; i < totalLevels; i++)
+            //var totalLevels = SceneManager.sceneCountInBuildSettings;
+            SceneIDs.TotalLevels = Directory.EnumerateFiles(Path.Combine(Application.dataPath, "Resources", "Levels")).Count(x => x.EndsWith(".map"));
+            for (int i = 0; i < SceneIDs.TotalLevels; i++)
             {
-                print(i);
                 var button = Instantiate(buttonPrefab, buttonsParent);
-                button.Text.text = i.ToString();
-                button.LevelID = i;
+                button.Text.text = (i+1).ToString();
+                button.LevelID = i + 1;
             }
         }
 
