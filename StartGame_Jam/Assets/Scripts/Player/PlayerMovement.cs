@@ -18,7 +18,6 @@ namespace Player
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
-        private EndGameMenu _endGameMenu;
 
         public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
         
@@ -62,6 +61,8 @@ namespace Player
         public bool AreInputsReversed { get; set; }
 
         public bool HasBarrier => BarrierRadius > 0;
+
+        public EndGameMenu EndGameMenu { get; set; }
 
         private void Update()
         {
@@ -143,7 +144,7 @@ namespace Player
             PlayerPlatformZ = z;
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
-                _endGameMenu.ShowWinMenu();
+                EndGameMenu.ShowWinMenu();
             
             // Init hacker if this input is first one
             if (Hacker is not null)

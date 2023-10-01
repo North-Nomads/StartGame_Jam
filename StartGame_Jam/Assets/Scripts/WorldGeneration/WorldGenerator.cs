@@ -72,6 +72,7 @@ namespace WorldGeneration
 
             // Spawn the player
             _player = Instantiate(playerPrefab);
+            _player.EndGameMenu = endGameMenu;
             _player.HandleOnInstantiation(this);
 
             LevelJudge.WinLoseScreen = endGameMenu;
