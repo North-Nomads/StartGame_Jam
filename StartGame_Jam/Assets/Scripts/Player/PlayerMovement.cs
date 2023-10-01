@@ -103,7 +103,7 @@ namespace Player
 
                 // Check if target platform is available to be stand on
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
-                if (targetPlatform.IsReachable)
+                if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;

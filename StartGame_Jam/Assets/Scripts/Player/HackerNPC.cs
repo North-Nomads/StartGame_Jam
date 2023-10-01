@@ -13,6 +13,7 @@ namespace Player
         private float _currentActionTimer;
         private Vector2Int _hackerPosition;
         private float _startDelay;
+        private bool _hasKilledPlayer;
 
         public float DefaultActionTimer => defaultActionTimer;
         public PlayerMovement TargetPlayer { get; set; }
@@ -39,6 +40,9 @@ namespace Player
 
         private void MoveOnNextPlatform()
         {
+            if (_hasKilledPlayer)
+                return;
+            
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
@@ -58,6 +62,7 @@ namespace Player
 
             if (HasReachedPlayer())
             {
+                _hasKilledPlayer = true;
                 LevelJudge.PauseMenu.TakeAwayPlayerControls();
                 animator.SetTrigger("Attack");
 
