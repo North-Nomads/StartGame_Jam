@@ -12,9 +12,9 @@ namespace UI
         public static bool IsPaused => _isPaused;
         public static bool IsCharacterControllable => _isCharacterControllable;
 
-        public void TakeAwayPlayerControls()
+        public void SetPlayerControls(bool canControl)
         {
-            _isCharacterControllable = false;
+            _isCharacterControllable = canControl;
         }
 
         private void Start()

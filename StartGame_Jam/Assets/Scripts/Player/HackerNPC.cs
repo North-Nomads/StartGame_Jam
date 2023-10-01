@@ -63,7 +63,7 @@ namespace Player
             if (HasReachedPlayer())
             {
                 _hasKilledPlayer = true;
-                LevelJudge.PauseMenu.TakeAwayPlayerControls();
+                LevelJudge.PauseMenu.SetPlayerControls(false);
                 animator.SetTrigger("Attack");
 
                 StartCoroutine(WaitForKillAnimation());
@@ -71,6 +71,7 @@ namespace Player
                 IEnumerator WaitForKillAnimation()
                 {
                     yield return new WaitForSeconds(1f);
+                    LevelJudge.PauseMenu.SetPlayerControls(true);
                     LevelJudge.WinLoseScreen.ShowLoseMenu();
                 }
             }
@@ -88,6 +89,7 @@ namespace Player
 
         public void CallOnHackerSpawn(WorldGenerator world, PlayerMovement playerMovement, float hackerDelay, Vector2Int checkpointPosition)
         {
+            _hasKilledPlayer = false;
             TargetPlayer = playerMovement;
             World = world;
             

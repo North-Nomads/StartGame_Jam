@@ -1,7 +1,6 @@
+using System.Collections;
 using Level;
-using System;
 using System.Collections.Generic;
-using Level;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,10 +21,11 @@ namespace Player
         private Vector2 _moveInput;
         private int _playerMoves;
         private EndGameMenu _endGameMenu;
-
+        
         public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
         
         public int BarrierRadius { get; set; }
+        
         
         public bool HasShield { get; set; }
         
@@ -140,26 +140,14 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
-            print(World.FinishPosition);
+            Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
-            Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
             _playerPath.Enqueue(new Vector2Int(x, z));
 
             StartCoroutine(PerformMovingTowardsTarget());
-            var target = World[x, z];
-            transform.position = target.PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
-
-            if (target.IsCheckPoint)
-            {
-                Debug.Log("Checkpoint has been reached");
-                _playerPath.Clear();
-                Destroy(Hacker.gameObject);
-                Hacker = null;
-                return;
-            }
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
@@ -169,7 +157,7 @@ namespace Player
                 return;
 
             Hacker = Instantiate(hacker);
-            Hacker.CallOnHackerSpawn(World, this, hackerDelay);
+            Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
 
             IEnumerator PerformMovingTowardsTarget()
             {
