@@ -80,7 +80,7 @@ namespace WorldGeneration
             _player = Instantiate(playerPrefab);
             _player.HandleOnInstantiation(this);
 
-            virtualCamera.Follow = _player.transform;
+            virtualCamera.Follow = _player.ChildTransform;
 
             LevelJudge.WinLoseScreen = endGameMenu;
         }

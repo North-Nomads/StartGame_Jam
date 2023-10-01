@@ -8,7 +8,9 @@ namespace Effects
     public class MinerEffect : PlatformEffect
     {
         [SerializeField] private float effectDuration;
-        [SerializeField] private float targetCameraZoomSize;
+        [SerializeField] private float fullZoomTime;
+        [SerializeField] private float targetCameraOrthoSize;
+        private float _defaultCameraOrthoSize;
 
         public override void ExecuteOnPickUp(PlayerMovement player)
         {
@@ -17,18 +19,25 @@ namespace Effects
                 player.HandleBarrierBlock();
                 return;
             }
+            
+            var virtualCamera = player.CameraShake.VirtualCamera;
+            _defaultCameraOrthoSize = virtualCamera.m_Lens.OrthographicSize;
 
-            /*var mainCamera = Camera.main;
-            var cameraStartSize = mainCamera.orthographicSize;
-            mainCamera.orthographicSize = targetCameraZoomSize;
-            StartCoroutine(WaitForSeconds());
-
-            IEnumerator WaitForSeconds()
+            StartCoroutine(ZoomInDuringTime());
+            
+            IEnumerator ZoomInDuringTime()
             {
-                yield return new WaitForSeconds(effectDuration);
-                mainCamera.orthographicSize = cameraStartSize;
+                var difference = targetCameraOrthoSize - _defaultCameraOrthoSize;
+                var delta = difference / fullZoomTime;
+                var time = 0f;
 
-            }*/
+                while (time < fullZoomTime)
+                {
+                    virtualCamera.m_Lens.OrthographicSize += delta;
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+            }
         }
     }
 }

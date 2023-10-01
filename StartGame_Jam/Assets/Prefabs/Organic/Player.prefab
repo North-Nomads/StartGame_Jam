@@ -102,6 +102,7 @@ MonoBehaviour:
   hackerDelay: 5
   hacker: {fileID: 7345821754778304642, guid: 469f2e24a76af844f9691a8c2ae56436, type: 3}
   animator: {fileID: 8676103128652841354}
+  childObject: {fileID: 2098562774580878883}
 --- !u!114 &6470784666628600029
 MonoBehaviour:
   m_ObjectHideFlags: 0

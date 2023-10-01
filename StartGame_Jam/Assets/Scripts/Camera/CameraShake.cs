@@ -14,6 +14,8 @@ namespace Camera
         private CinemachineVirtualCamera _virtualCamera;
         private CinemachineBasicMultiChannelPerlin _perlin;
 
+        public CinemachineVirtualCamera VirtualCamera => _virtualCamera;
+
         private void Start()
         {
             _virtualCamera = GetComponent<CinemachineVirtualCamera>();

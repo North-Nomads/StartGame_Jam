@@ -19,6 +19,7 @@ namespace Player
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
         [SerializeField] private Animator animator;
+        [SerializeField] private Transform childObject;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
@@ -69,6 +70,7 @@ namespace Player
         public bool AreInputsReversed { get; set; }
 
         public bool HasBarrier => BarrierRadius > 0;
+        public Transform ChildTransform => childObject;
 
         private void Update()
         {
