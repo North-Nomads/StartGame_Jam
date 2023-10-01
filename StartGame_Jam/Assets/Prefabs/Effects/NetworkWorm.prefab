@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce43098464844e992d650c688581bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelToHide: {fileID: 6824560981270360084}
   backStepsAmount: 0
   timeBetweenSteps: 0
 --- !u!1001 &5941619944538066245
@@ -111,5 +112,10 @@ PrefabInstance:
 --- !u!4 &6196502980966754990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c76db1a4a816c524e8081a8fa9592a5d, type: 3}
+  m_PrefabInstance: {fileID: 5941619944538066245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6824560981270360084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c76db1a4a816c524e8081a8fa9592a5d, type: 3}
   m_PrefabInstance: {fileID: 5941619944538066245}
   m_PrefabAsset: {fileID: 0}

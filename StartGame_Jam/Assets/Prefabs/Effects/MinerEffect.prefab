@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9754a2c6f1db4eaebd2934b02f5fc36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectDuration: 0
-  fullZoomTime: 0
-  targetCameraOrthoSize: 0
+  modelToHide: {fileID: 542625446691400427}
+  effectDuration: 3
+  fullZoomTime: 0.4
+  zoomOutTime: 0.2
+  targetCameraOrthoSize: 1.5
 --- !u!1001 &812516183037040570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +111,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26c2dcd983e693547bd868352037a979, type: 3}
+--- !u!1 &542625446691400427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 26c2dcd983e693547bd868352037a979, type: 3}
+  m_PrefabInstance: {fileID: 812516183037040570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &922140974443966545 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26c2dcd983e693547bd868352037a979, type: 3}

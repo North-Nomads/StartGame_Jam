@@ -9,6 +9,7 @@ namespace Effects
     {
         [SerializeField] private float effectDuration;
         [SerializeField] private float fullZoomTime;
+        [SerializeField] private float zoomOutTime;
         [SerializeField] private float targetCameraOrthoSize;
         private float _defaultCameraOrthoSize;
 
@@ -24,7 +25,7 @@ namespace Effects
             _defaultCameraOrthoSize = virtualCamera.m_Lens.OrthographicSize;
 
             StartCoroutine(ZoomInDuringTime());
-            
+
             IEnumerator ZoomInDuringTime()
             {
                 var difference = targetCameraOrthoSize - _defaultCameraOrthoSize;
@@ -33,10 +34,30 @@ namespace Effects
 
                 while (time < fullZoomTime)
                 {
-                    virtualCamera.m_Lens.OrthographicSize += delta;
+                    print($"{delta * Time.deltaTime}, {virtualCamera.m_Lens.OrthographicSize}, {fullZoomTime}/{time}");
+                    virtualCamera.m_Lens.OrthographicSize += delta * Time.deltaTime;
+                    time += Time.deltaTime;
+                    print($"Time {time}");
+                    yield return null;
+                }
+
+                print("Waiting...");
+                yield return new WaitForSeconds(effectDuration - fullZoomTime - zoomOutTime);
+
+                print("Continue");
+                difference = _defaultCameraOrthoSize - targetCameraOrthoSize;
+                delta = difference / zoomOutTime;
+                time = 0f;
+
+                print("Zooming out");
+                while (time < zoomOutTime)
+                {
+                    print(virtualCamera.m_Lens.OrthographicSize);
+                    virtualCamera.m_Lens.OrthographicSize += delta * Time.deltaTime;
                     time += Time.deltaTime;
                     yield return null;
                 }
+                print("Finish");
             }
         }
     }

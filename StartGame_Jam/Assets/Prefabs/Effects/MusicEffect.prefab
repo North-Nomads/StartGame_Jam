@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73a9cb2da0344c5aa41489b1bf46ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelToHide: {fileID: 5876851594875892466}
 --- !u!1001 &6723782651780452259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,6 +107,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65b1207e572df3c408a5480bc5d8dd13, type: 3}
+--- !u!1 &5876851594875892466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 65b1207e572df3c408a5480bc5d8dd13, type: 3}
+  m_PrefabInstance: {fileID: 6723782651780452259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6540658016469100616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 65b1207e572df3c408a5480bc5d8dd13, type: 3}

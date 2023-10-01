@@ -114,9 +114,10 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
-                    if (targetPlatform.Effect != null)
+                    if (targetPlatform.Effect != null && targetPlatform.Effect.IsPickable)
                     {
                         targetPlatform.Effect.ExecuteOnPickUp(this);
+                        targetPlatform.DisableEffect();
                     }
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
