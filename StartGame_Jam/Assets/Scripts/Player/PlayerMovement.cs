@@ -92,10 +92,10 @@ namespace Player
                 int targetX = PlayerPlatformX + moveX;
                 int targetZ = PlayerPlatformZ + moveZ;
                 
-                if (targetX < 0 || targetX > World.LevelSizeX)
+                if (targetX < 0 || targetX >= World.LevelSizeX)
                     return;
                 
-                if (targetZ < 0 || targetZ > World.LevelSizeZ)
+                if (targetZ < 0 || targetZ >= World.LevelSizeZ)
                     return;
                 // Calculate target platform position
                 var targetPlatform = World[targetX, targetZ];
