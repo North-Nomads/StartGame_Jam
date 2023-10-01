@@ -170,11 +170,10 @@ MonoBehaviour:
   levelSizeX: 0
   levelSizeZ: 0
   platformPrefabs:
-  - {fileID: 2179326801743480747, guid: 248f55e2873bdc541b822976f35726ad, type: 3}
-  - {fileID: 408226021839654310, guid: e2aa3d1492a108a44a2efe4f1895e411, type: 3}
-  platformEffects:
-  - {fileID: 0}
-  - {fileID: 0}
+  - Index: 0
+    Prefab: {fileID: 0}
+  - Index: 0
+    Prefab: {fileID: 0}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
 --- !u!1 &705507993
 GameObject:

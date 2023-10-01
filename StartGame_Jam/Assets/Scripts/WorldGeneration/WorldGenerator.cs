@@ -1,6 +1,7 @@
 using Player;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,9 +17,9 @@ namespace WorldGeneration
         [SerializeField] private int levelSizeZ;
         
         // Prefabs of platforms (index = id)
-        [SerializeField] private WorldPlatform[] platformPrefabs;
+        [SerializeField] private IndexedPlatformPrefabLink[] platformPrefabs;
         // Effects array that are sorted by their id
-        [SerializeField] private PlatformEffect[] platformEffects;
+        [SerializeField] private IndexedPlatformEffectLink[] platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
         // HackerNPC prefab
@@ -65,23 +66,14 @@ namespace WorldGeneration
                 for (int j = 0; j < levelSizeZ; j++)
                 {
                     byte id = reader.ReadByte();
-                    var tile = Instantiate(platformPrefabs[id]);
+                    byte effectId = reader.ReadByte();
+                    var tile = Instantiate(platformPrefabs.First(x => x.Index == id).Prefab);
+                    var effect = platformEffects.First(x => x.Index == id).EffectPrefab;
                     tile.transform.position = new Vector3(i, 0, j);
+                    tile.Effect = effect;
                     tile.X = i;
                     tile.Z = j;
                     _worldPlatforms[i, j] = tile;
-                }
-            }
-            for (int i = 0; i < levelSizeX; i++)
-            {
-                for (int j = 0; j < levelSizeZ; j++)
-                {
-                    byte id = reader.ReadByte();
-                    if (id != 0)
-                    {
-                        var effect = platformEffects[id];
-                        _worldPlatforms[i, j].Effect = effect;
-                    }
                 }
             }
         }
