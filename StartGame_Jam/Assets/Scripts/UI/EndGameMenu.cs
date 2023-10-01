@@ -26,11 +26,10 @@ public class EndGameMenu : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        // TODO: rewrite to get two digits scene number
-        var totalLevels = SceneManager.sceneCount;
-        var thisLevelChar = SceneManager.GetActiveScene().name[^1];
-        var thisLevelNumber = thisLevelChar - '0';
-        if (thisLevelChar >= totalLevels)
+        var totalLevels = SceneManager.sceneCountInBuildSettings;
+        var thisLevelNumber = SceneManager.GetActiveScene().buildIndex;
+        
+        if (totalLevels == thisLevelNumber)
         {
             ExitToMainMenu();
             return;
