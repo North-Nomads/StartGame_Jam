@@ -41,6 +41,12 @@ namespace WorldGeneration
         /// Effect that is applied when player stands on the platform
         /// </summary>
         public PlatformEffect Effect { get; set; }
+
+        public void DisableEffect()
+        {
+            Effect.IsPickable = false;
+            Effect.HideChildren();
+        }
     }
 
     /// <summary>

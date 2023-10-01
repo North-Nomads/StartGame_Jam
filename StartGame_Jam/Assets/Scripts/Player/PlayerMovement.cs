@@ -3,6 +3,7 @@ using Level;
 ﻿using Cinemachine;
 
 using System.Collections.Generic;
+using Camera;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,14 +19,15 @@ namespace Player
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
         [SerializeField] private Animator animator;
+        [SerializeField] private Transform childObject;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private EndGameMenu _endGameMenu;
-        public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
+        private bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
 
-        public CinemachineVirtualCamera cinemachineVirtualCamera { get; set; }
+        public CameraShake CameraShake { get; set; }
         
         public int BarrierRadius { get; set; }
         
@@ -68,6 +70,7 @@ namespace Player
         public bool AreInputsReversed { get; set; }
 
         public bool HasBarrier => BarrierRadius > 0;
+        public Transform ChildTransform => childObject;
 
         private void Update()
         {
@@ -98,17 +101,12 @@ namespace Player
                 int targetX = PlayerPlatformX + moveX;
                 int targetZ = PlayerPlatformZ + moveZ;
                 
-                if (targetX < 0 || targetX >= World.LevelSizeX)
+                if (targetX < 0 || targetX >= World.LevelSizeX || targetZ < 0 || targetZ >= World.LevelSizeZ)
                 {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
+                    CameraShake.ShakeCameraOnBump();
                     return;
                 }
-
-                if (targetZ < 0 || targetZ >= World.LevelSizeZ)
-                {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
-                    return;
-                }
+                
                 // Calculate target platform position
                 var targetPlatform = World[targetX, targetZ];
 
@@ -116,16 +114,17 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
-                    if (targetPlatform.Effect != null)
+                    if (targetPlatform.Effect != null && targetPlatform.Effect.IsPickable)
                     {
                         targetPlatform.Effect.ExecuteOnPickUp(this);
+                        targetPlatform.DisableEffect();
                     }
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
                 }
                 else
                 {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
+                    CameraShake.ShakeCameraOnBump();
                 }
             }
             
@@ -213,6 +212,7 @@ namespace Player
         {
             ActionCooldown = defaultPlayerActionTime;
             World = world;
+            CameraShake = World.CameraShake;
             
             PlayerPlatformX = 0;
             PlayerPlatformZ = 0;

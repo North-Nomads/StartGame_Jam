@@ -1,9 +1,8 @@
 using Player;
 using System.IO;
 using Level;
-using System.Linq;
+using Camera;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utils;
 using UI;
 using Cinemachine;
@@ -15,13 +14,13 @@ namespace WorldGeneration
     /// </summary>
     public class WorldGenerator : MonoBehaviour
     {
+        [Header("Camera")]
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private CameraShake cameraShake;
+        
+        
         [SerializeField] private EndGameMenu endGameMenu;
-
         [SerializeField] private int FinishID;
-
-        // Size of 2d array
-        [SerializeField] private int levelSizeX;
-        [SerializeField] private int levelSizeZ;
 
         // Prefabs of platforms (index = id)
         [SerializeField] private SerializableDictionary<int, WorldPlatform> platformPrefabs;
@@ -29,13 +28,15 @@ namespace WorldGeneration
         [SerializeField] private SerializableDictionary<int, PlatformEffect> platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
-        [SerializeField] private CameraMovement cameraMovement;
-        [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
         private Vector2Int _finishPosition;
         private PlayerMovement _player;
+        
+        // Size of 2d array
+        private int _levelSizeX;
+        private int _levelSizeZ;
 
         public Vector2Int FinishPosition => _finishPosition;
 
@@ -44,12 +45,14 @@ namespace WorldGeneration
         /// <summary>
         /// Gets the X-size of the level.
         /// </summary>
-        public int LevelSizeX => levelSizeX;
+        public int LevelSizeX => _levelSizeX;
 
         /// <summary>
         /// Gets the Z-size of the level.
         /// </summary>
-        public int LevelSizeZ => levelSizeZ;
+        public int LevelSizeZ => _levelSizeZ;
+
+        public CameraShake CameraShake => cameraShake;
 
         private void Start()
         {
@@ -75,11 +78,9 @@ namespace WorldGeneration
 
             // Spawn the player
             _player = Instantiate(playerPrefab);
-            _player.cinemachineVirtualCamera = virtualCamera;
-            cameraMovement.ObjToFollow = _player.transform;
-            virtualCamera.Follow = _player.transform;
-            virtualCamera.GetComponent<CameraShake>()._cinemachineVirtualCamera = virtualCamera;
             _player.HandleOnInstantiation(this);
+
+            virtualCamera.Follow = _player.ChildTransform;
 
             LevelJudge.WinLoseScreen = endGameMenu;
         }
@@ -92,14 +93,14 @@ namespace WorldGeneration
         {
             using Stream stream = File.OpenRead(Path.Combine(Application.dataPath, "Resources", "Levels", filePath));
             using BinaryReader reader = new(stream);
-            levelSizeZ = reader.ReadByte();
-            levelSizeX = reader.ReadByte();
+            _levelSizeZ = reader.ReadByte();
+            _levelSizeX = reader.ReadByte();
             int version = reader.ReadInt32();
             Debug.Log($"Opened world saved in editor version key: {version}");
-            _worldPlatforms = new WorldPlatform[levelSizeX, levelSizeZ];
-            for (int j = 0; j < levelSizeZ; j++) 
+            _worldPlatforms = new WorldPlatform[_levelSizeX, _levelSizeZ];
+            for (int j = 0; j < _levelSizeZ; j++) 
             {
-                for (int i = 0; i < levelSizeX; i++)
+                for (int i = 0; i < _levelSizeX; i++)
                 {
                     byte id = reader.ReadByte();
                     if (id == FinishID)
