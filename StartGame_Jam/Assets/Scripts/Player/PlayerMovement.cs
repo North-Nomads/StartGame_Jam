@@ -104,6 +104,10 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable)
                 {
+                    if (targetPlatform.Effect != null)
+                    {
+                        targetPlatform.Effect.ExecuteOnPickUp(this);
+                    }
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
                 }

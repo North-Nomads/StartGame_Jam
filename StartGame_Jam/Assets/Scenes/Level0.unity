@@ -350,7 +350,21 @@ MonoBehaviour:
     - Key: 0
       Value: {fileID: 0}
     - Key: 1
-      Value: {fileID: 0}
+      Value: {fileID: 613466623918057288, guid: dda6df66925ea43469c8d82df34b3b67, type: 3}
+    - Key: 2
+      Value: {fileID: 5837853139730012386, guid: df23c6eab6f83574aa1b53f901da50d7, type: 3}
+    - Key: 3
+      Value: {fileID: 9040533263328755831, guid: 14fe1ec162d795d45b7f06aca59b13d0, type: 3}
+    - Key: 4
+      Value: {fileID: 2403892058275187260, guid: 3368e06b1ef16ef468f77feb80522492, type: 3}
+    - Key: 5
+      Value: {fileID: 5502837887063640152, guid: 30ae3a8f3b2627b4ab7d954656de2e78, type: 3}
+    - Key: 6
+      Value: {fileID: 5388544087272533338, guid: 2ad98a6dcb273e649ac71373d2fa5303, type: 3}
+    - Key: 7
+      Value: {fileID: 2790587703280906264, guid: 24b8cd9964fdd2449be8f91d42888521, type: 3}
+    - Key: 8
+      Value: {fileID: 463952184942039484, guid: 59d557576afb0304fa5578a64c848832, type: 3}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
 --- !u!1 &442926590
 GameObject:
