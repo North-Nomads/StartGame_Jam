@@ -141,6 +141,7 @@ namespace Player
         private void MoveSelfOnPlatform(int x, int z)
         {
             Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
+            
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
             _playerPath.Enqueue(new Vector2Int(x, z));
@@ -154,7 +155,11 @@ namespace Player
             
             // Init hacker if this input is first one
             if (Hacker is not null)
+            {
+                if (Hacker.HasReachedPlayer())
+                    Hacker.KillPlayer();
                 return;
+            }
 
             Hacker = Instantiate(hacker);
             Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);

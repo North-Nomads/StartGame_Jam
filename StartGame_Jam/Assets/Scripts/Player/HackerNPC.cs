@@ -61,19 +61,22 @@ namespace Player
             _hackerPosition = targetPlatform;
 
             if (HasReachedPlayer())
-            {
-                _hasKilledPlayer = true;
-                LevelJudge.PauseMenu.SetPlayerControls(false);
-                animator.SetTrigger("Attack");
+                KillPlayer();
+        }
 
-                StartCoroutine(WaitForKillAnimation());
+        public void KillPlayer()
+        {
+            _hasKilledPlayer = true;
+            LevelJudge.PauseMenu.SetPlayerControls(false);
+            animator.SetTrigger("Attack");
+
+            StartCoroutine(WaitForKillAnimation());
                 
-                IEnumerator WaitForKillAnimation()
-                {
-                    yield return new WaitForSeconds(1f);
-                    LevelJudge.PauseMenu.SetPlayerControls(true);
-                    LevelJudge.WinLoseScreen.ShowLoseMenu();
-                }
+            IEnumerator WaitForKillAnimation()
+            {
+                yield return new WaitForSeconds(1f);
+                LevelJudge.PauseMenu.SetPlayerControls(true);
+                LevelJudge.WinLoseScreen.ShowLoseMenu();
             }
         }
 
