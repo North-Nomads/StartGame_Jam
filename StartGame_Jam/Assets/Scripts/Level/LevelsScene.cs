@@ -14,7 +14,7 @@ namespace Level
         private void Start()
         {
             //var totalLevels = SceneManager.sceneCountInBuildSettings;
-            SceneIDs.TotalLevels = Directory.EnumerateFiles(Path.Combine(Application.dataPath, "Resources", "Levels")).Count(x => x.EndsWith(".map"));
+            SceneIDs.TotalLevels = Directory.EnumerateFiles(Path.Combine(Application.dataPath, "Resources", "Levels")).Count(x => x.EndsWith(".map") && !x.Contains("TestLevel"));
             for (int i = 0; i < SceneIDs.TotalLevels; i++)
             {
                 var button = Instantiate(buttonPrefab, buttonsParent);

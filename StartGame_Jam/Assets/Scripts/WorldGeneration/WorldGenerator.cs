@@ -102,15 +102,20 @@ namespace WorldGeneration
                     byte effectId = reader.ReadByte();
                     PlatformFlags flags = (PlatformFlags)reader.ReadByte();
                     int rotation = 0;
-                    if ((flags & PlatformFlags.RotateBy90) != 0) 
+                    if ((flags & PlatformFlags.RotateBy90) != 0)
                         rotation += 90;
                     if ((flags & PlatformFlags.RotateBy180) != 0)
                         rotation += 180;
                     var tile = Instantiate(platformPrefabs[id]);
-                    var effect = platformEffects[effectId];
+                    var effectPrefab = platformEffects[effectId];
+                    if (effectPrefab != null)
+                    {
+                        var effect = Instantiate(effectPrefab);
+                        effect.transform.position = new Vector3(i, 0, j);
+                        tile.Effect = effect;
+                    }
                     tile.transform.Rotate(0, rotation, 0);
                     tile.transform.position = new Vector3(i, 0, j);
-                    tile.Effect = effect;
                     tile.X = i;
                     tile.Z = j;
                     _worldPlatforms[i, j] = tile;
