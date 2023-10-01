@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WorldGeneration;
@@ -16,8 +18,9 @@ namespace Player
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
+        private EndGameMenu _endGameMenu;
 
-        public bool CanMoveNow => _currentActionCooldown <= 0;
+        public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
         
         public int BarrierRadius { get; set; }
         
@@ -135,6 +138,9 @@ namespace Player
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
 
+            if (x == World.FinishPosition.x && z == World.FinishPosition.y)
+                _endGameMenu.ShowWinMenu();
+            
             // Init hacker if this input is first one
             if (Hacker is not null)
             {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Level;
+using UnityEngine;
 using WorldGeneration;
 
 namespace Player
@@ -39,7 +40,7 @@ namespace Player
             // DEBUG ONLY 
             // Disable error throwing on player caught
             if (HasReachedPlayer())
-                World.HandlePlayerLose();
+                LevelJudge.WinLoseScreen.ShowLoseMenu();
 
             var possibleTarget = TargetPlayer.PlayerPath.Peek();
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
@@ -56,7 +57,7 @@ namespace Player
             _hackerPosition = targetPlatform;
             
             if (HasReachedPlayer())
-                World.HandlePlayerLose();
+                LevelJudge.WinLoseScreen.ShowLoseMenu();
         }
 
         /// <summary>
