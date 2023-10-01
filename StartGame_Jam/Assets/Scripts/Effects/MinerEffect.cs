@@ -18,7 +18,7 @@ namespace Effects
                 return;
             }
 
-            var mainCamera = Camera.main;
+            /*var mainCamera = Camera.main;
             var cameraStartSize = mainCamera.orthographicSize;
             mainCamera.orthographicSize = targetCameraZoomSize;
             StartCoroutine(WaitForSeconds());
@@ -28,7 +28,7 @@ namespace Effects
                 yield return new WaitForSeconds(effectDuration);
                 mainCamera.orthographicSize = cameraStartSize;
 
-            }
+            }*/
         }
     }
 }

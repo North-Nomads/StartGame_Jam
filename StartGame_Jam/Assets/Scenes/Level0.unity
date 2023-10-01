@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -387,10 +387,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f87c68afb12ad04f9dd767f61bc135e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 28560664}
   endGameMenu: {fileID: 1891167871}
   FinishID: 30
-  levelSizeX: 0
-  levelSizeZ: 0
   platformPrefabs:
     records:
     - Key: 0
@@ -452,8 +451,6 @@ MonoBehaviour:
     - Key: 8
       Value: {fileID: 463952184942039484, guid: 59d557576afb0304fa5578a64c848832, type: 3}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
-  cameraMovement: {fileID: 963194229}
-  virtualCamera: {fileID: 28560664}
 --- !u!1 &442926590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1182,7 @@ MonoBehaviour:
   m_ZDamping: 1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.35
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -1194,7 +1191,7 @@ MonoBehaviour:
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
-  m_BiasY: 0
+  m_BiasY: 0.1
   m_CenterOnActivate: 1
   m_GroupFramingMode: 2
   m_AdjustmentMode: 0
@@ -1541,7 +1538,6 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
-  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1623,19 +1619,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 55, y: -150, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d1102d58df19e4c97cb9cca83e96a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _smoothPosition: 0.25
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
