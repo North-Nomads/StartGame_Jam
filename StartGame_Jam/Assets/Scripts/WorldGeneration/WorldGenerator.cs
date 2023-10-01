@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 using UI;
+using Cinemachine;
 
 namespace WorldGeneration
 {
@@ -28,6 +29,8 @@ namespace WorldGeneration
         [SerializeField] private SerializableDictionary<int, PlatformEffect> platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
+        [SerializeField] private CameraMovement cameraMovement;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
@@ -72,6 +75,10 @@ namespace WorldGeneration
 
             // Spawn the player
             _player = Instantiate(playerPrefab);
+            _player.cinemachineVirtualCamera = virtualCamera;
+            cameraMovement.ObjToFollow = _player.transform;
+            virtualCamera.Follow = _player.transform;
+            virtualCamera.GetComponent<CameraShake>()._cinemachineVirtualCamera = virtualCamera;
             _player.HandleOnInstantiation(this);
 
             LevelJudge.WinLoseScreen = endGameMenu;

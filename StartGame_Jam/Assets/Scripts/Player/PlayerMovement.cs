@@ -1,4 +1,5 @@
-﻿using Level;
+﻿using Cinemachine;
+using Level;
 using System;
 using System.Collections.Generic;
 using UI;
@@ -18,9 +19,10 @@ namespace Player
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
-        private int _playerMoves;
 
         public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
+
+        public CinemachineVirtualCamera cinemachineVirtualCamera { get; set; }
         
         public int BarrierRadius { get; set; }
         
@@ -85,7 +87,7 @@ namespace Player
 
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
-                
+
                 if (moveX != 0 && moveZ != 0)
                     return;
 
@@ -93,10 +95,16 @@ namespace Player
                 int targetZ = PlayerPlatformZ + moveZ;
                 
                 if (targetX < 0 || targetX >= World.LevelSizeX)
+                {
+                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
                     return;
-                
+                }
+
                 if (targetZ < 0 || targetZ >= World.LevelSizeZ)
+                {
+                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
                     return;
+                }
                 // Calculate target platform position
                 var targetPlatform = World[targetX, targetZ];
 
@@ -110,6 +118,10 @@ namespace Player
                     }
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
+                }
+                else
+                {
+                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
                 }
             }
             
