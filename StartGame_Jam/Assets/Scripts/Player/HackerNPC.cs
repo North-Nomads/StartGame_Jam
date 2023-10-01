@@ -1,6 +1,7 @@
 using System.Collections;
 using Level;
 using UnityEngine;
+using Utils;
 using WorldGeneration;
 
 namespace Player
@@ -43,10 +44,13 @@ namespace Player
             if (_hasKilledPlayer)
                 return;
             
+
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
             var possibleTarget = TargetPlayer.PlayerPath.Peek();
+            transform.rotation = OrganicMovements.ConvertInputIntoRotation(_hackerPosition.x - possibleTarget.x,
+                _hackerPosition.y - possibleTarget.y);
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
             var zDistance = Mathf.Abs(TargetPlayer.PlayerPlatformZ - possibleTarget.y);
 

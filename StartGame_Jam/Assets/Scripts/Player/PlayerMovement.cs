@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 using WorldGeneration;
 using Vector2 = UnityEngine.Vector2;
 
@@ -141,6 +142,7 @@ namespace Player
         private void MoveSelfOnPlatform(int x, int z)
         {
             Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
+            transform.rotation = OrganicMovements.ConvertInputIntoRotation(PlayerPlatformX - x, PlayerPlatformZ - z);
             
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
