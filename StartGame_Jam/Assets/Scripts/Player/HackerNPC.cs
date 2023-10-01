@@ -7,7 +7,8 @@ namespace Player
     public class HackerNPC : MonoBehaviour
     {
         [SerializeField] private float defaultActionTimer;
-        
+        [SerializeField] private Animator animator;
+
         private float _currentActionTimer;
         private Vector2Int _hackerPosition;
         private float _startDelay;
@@ -37,10 +38,8 @@ namespace Player
 
         private void MoveOnNextPlatform()
         {
-            // DEBUG ONLY 
-            // Disable error throwing on player caught
-            if (HasReachedPlayer())
-                LevelJudge.WinLoseScreen.ShowLoseMenu();
+            animator.SetTrigger("Jump");
+            animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
             var possibleTarget = TargetPlayer.PlayerPath.Peek();
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);

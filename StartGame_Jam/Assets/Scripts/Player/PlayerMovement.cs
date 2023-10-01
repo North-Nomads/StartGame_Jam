@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private float defaultPlayerActionTime;
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
+        [SerializeField] private Animator animator;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
@@ -133,6 +134,8 @@ namespace Player
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
+            animator.SetTrigger("Jump");
+            animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
             _playerPath.Enqueue(new Vector2Int(x, z));
             transform.position = World[x, z].PlayerPivot.position;
             PlayerPlatformX = x;
