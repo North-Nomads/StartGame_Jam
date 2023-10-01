@@ -1,6 +1,6 @@
 using Player;
-using System.Collections;
 using System.IO;
+using Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,20 +11,23 @@ namespace WorldGeneration
     /// </summary>
     public class WorldGenerator : MonoBehaviour
     {
+        [SerializeField] private EndGameMenu endGameMenu;
         // Size of 2d array
         [SerializeField] private int levelSizeX;
         [SerializeField] private int levelSizeZ;
-        
+
         // Prefabs of platforms (index = id)
         [SerializeField] private WorldPlatform[] platformPrefabs;
         // Effects array that are sorted by their id
         [SerializeField] private PlatformEffect[] platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
-        // HackerNPC prefab
 
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
+        private Vector2Int _finishPosition;
+
+        public Vector2Int FinishPosition => _finishPosition;
 
         public WorldPlatform this[int x, int z] => _worldPlatforms[x, z];
 
@@ -47,6 +50,8 @@ namespace WorldGeneration
             // Spawn player
             var player = Instantiate(playerPrefab);
             player.HandleOnInstantiation(this);
+
+            LevelJudge.WinLoseScreen = endGameMenu;
         }
 
         /// <summary>

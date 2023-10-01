@@ -17,6 +17,7 @@ namespace Player
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private int _playerMoves;
+        private EndGameMenu _endGameMenu;
 
         public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
         
@@ -136,6 +137,9 @@ namespace Player
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
 
+            if (x == World.FinishPosition.x && z == World.FinishPosition.y)
+                _endGameMenu.ShowWinMenu();
+            
             // Init hacker if this input is first one
             if (Hacker is not null)
             {

@@ -32,14 +32,14 @@ namespace UI
                 if (_isPaused)
                     UnpauseGame();
                 else
-                    PauseGame();
+                    PauseGame(true);
             }
         }
 
-        public void PauseGame()
+        public void PauseGame(bool withWindow=false)
         {
             _isPaused = true;
-            content.gameObject.SetActive(true);
+            content.gameObject.SetActive(withWindow);
             Time.timeScale = 0;
         }
 

@@ -2,14 +2,16 @@ using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class WinMenu : MonoBehaviour
+public class EndGameMenu : MonoBehaviour
 {
-    [SerializeField] private RectTransform content;
+    [SerializeField] private RectTransform winContent;
+    [SerializeField] private RectTransform loseContent;
     [SerializeField] private PauseMenu pauseMenu;
     
     private void Start()
     {
-        content.gameObject.SetActive(false);
+        winContent.gameObject.SetActive(false);
+        loseContent.gameObject.SetActive(false);
     }
 
     public void RestartLevel()
@@ -39,7 +41,13 @@ public class WinMenu : MonoBehaviour
 
     public void ShowWinMenu()
     {
-        content.gameObject.SetActive(true);
+        winContent.gameObject.SetActive(true);
+        pauseMenu.PauseGame();
+    }
+
+    public void ShowLoseMenu()
+    {
+        loseContent.gameObject.SetActive(true);
         pauseMenu.PauseGame();
     }
 }
