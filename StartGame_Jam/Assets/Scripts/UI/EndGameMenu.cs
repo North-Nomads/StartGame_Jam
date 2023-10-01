@@ -1,6 +1,7 @@
 using Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WorldGeneration;
 
 namespace UI
 {
@@ -9,7 +10,8 @@ namespace UI
         [SerializeField] private RectTransform winContent;
         [SerializeField] private RectTransform loseContent;
         [SerializeField] private PauseMenu pauseMenu;
-    
+        [SerializeField] private WorldGenerator worldGenerator;
+
         private void Start()
         {
             LevelJudge.PauseMenu = pauseMenu;
@@ -35,9 +37,10 @@ namespace UI
                 return;
             }
 
-            SceneIDs.LoadedLevelID++;
-            // Call WorldGenerator scene rebuild
-        }
+        SceneIDs.LoadedLevelID++;
+        // Call WorldGenerator scene rebuild
+        worldGenerator.ReloadLevel();
+    }
 
         public void ShowWinMenu()
         {

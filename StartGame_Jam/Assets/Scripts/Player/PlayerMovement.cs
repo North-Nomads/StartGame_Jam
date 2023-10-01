@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using Level;
+using System;
 using System.Collections.Generic;
 using Level;
 using UI;
@@ -106,6 +107,10 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
+                    if (targetPlatform.Effect != null)
+                    {
+                        targetPlatform.Effect.ExecuteOnPickUp(this);
+                    }
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
                 }
@@ -129,7 +134,7 @@ namespace Player
         }
         
         /// <summary>
-        /// Moves self on x, z and checks if player losese
+        /// Moves self on x, z and checks if player loses
         /// </summary>
         /// <param name="x">target platform x coordinate</param>
         /// <param name="z">target platform z coordinate</param>
@@ -138,11 +143,23 @@ namespace Player
             print(World.FinishPosition);
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
+            Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
             _playerPath.Enqueue(new Vector2Int(x, z));
 
             StartCoroutine(PerformMovingTowardsTarget());
+            var target = World[x, z];
+            transform.position = target.PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
+
+            if (target.IsCheckPoint)
+            {
+                Debug.Log("Checkpoint has been reached");
+                _playerPath.Clear();
+                Destroy(Hacker.gameObject);
+                Hacker = null;
+                return;
+            }
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
@@ -170,6 +187,7 @@ namespace Player
                     yield return null;                
                 }
             }
+            Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
         }
 
         public void ReturnOneStepBack()
