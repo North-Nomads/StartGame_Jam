@@ -10,6 +10,7 @@ namespace WorldGeneration
     {
         [SerializeField] private Transform playerPivot;
         [SerializeField] private bool isReachable;
+        [SerializeField] private bool isCheckPoint;
 
         /// <summary>
         /// A transform that determines position on a player.
@@ -20,6 +21,11 @@ namespace WorldGeneration
         /// Defines if player can stand on this platform or not.
         /// </summary>
         public bool IsReachable => isReachable;
+
+        /// <summary>
+        /// Determines whether the platform is a checkpoint.
+        /// </summary>
+        public bool IsCheckPoint => isCheckPoint;
 
         /// <summary>
         /// The X coordinate of platform in 2DArray of all generator platforms.

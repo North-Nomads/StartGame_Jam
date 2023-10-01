@@ -131,26 +131,37 @@ namespace Player
         }
         
         /// <summary>
-        /// Moves self on x, z and checks if player losese
+        /// Moves self on x, z and checks if player loses
         /// </summary>
         /// <param name="x">target platform x coordinate</param>
         /// <param name="z">target platform z coordinate</param>
         private void MoveSelfOnPlatform(int x, int z)
         {
+            Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
             _playerPath.Enqueue(new Vector2Int(x, z));
-            transform.position = World[x, z].PlayerPivot.position;
+            var target = World[x, z];
+            transform.position = target.PlayerPivot.position;
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
+
+            if (target.IsCheckPoint)
+            {
+                Debug.Log("Checkpoint has been reached");
+                _playerPath.Clear();
+                Destroy(Hacker.gameObject);
+                Hacker = null;
+                return;
+            }
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
             
             // Init hacker if this input is first one
-            if (Hacker is not null)
+            if (Hacker != null)
                 return;
             
             Hacker = Instantiate(hacker);
-            Hacker.CallOnHackerSpawn(World, this, hackerDelay);
+            Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
         }
 
         public void ReturnOneStepBack()

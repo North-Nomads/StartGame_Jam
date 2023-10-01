@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 2155370381455701656}
   isReachable: 1
+  isCheckPoint: 0
 --- !u!1 &8213769603953819838
 GameObject:
   m_ObjectHideFlags: 0

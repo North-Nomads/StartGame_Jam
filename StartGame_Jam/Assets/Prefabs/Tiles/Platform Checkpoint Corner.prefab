@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 2155370381455701656}
   isReachable: 1
+  isCheckPoint: 1
 --- !u!1 &8213769603953819838
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +132,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 31fe561205c18134d81bd9cf44b404b8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6ce6350ba8ac8544ba49c8cde778284, type: 2}
     - target: {fileID: 919132149155446097, guid: 31fe561205c18134d81bd9cf44b404b8, type: 3}
       propertyPath: m_Name
       value: platform_checkpoint_corner

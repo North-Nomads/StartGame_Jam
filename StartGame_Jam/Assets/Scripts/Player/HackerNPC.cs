@@ -1,4 +1,5 @@
 ﻿using Level;
+using Unity.VisualScripting;
 using UnityEngine;
 using WorldGeneration;
 
@@ -70,12 +71,12 @@ namespace Player
             return playerPosition == _hackerPosition;
         }
 
-        public void CallOnHackerSpawn(WorldGenerator world, PlayerMovement playerMovement, float hackerDelay)
+        public void CallOnHackerSpawn(WorldGenerator world, PlayerMovement playerMovement, float hackerDelay, Vector2Int checkpointPosition)
         {
             TargetPlayer = playerMovement;
             World = world;
             
-            transform.position = World[0, 0].PlayerPivot.position;
+            transform.position = World[checkpointPosition.x, checkpointPosition.y].PlayerPivot.position;
             _hackerPosition = Vector2Int.zero;
             ActionTimer = defaultActionTimer;
             _currentActionTimer = ActionTimer;
