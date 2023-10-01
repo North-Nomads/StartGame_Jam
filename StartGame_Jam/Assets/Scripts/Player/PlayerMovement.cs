@@ -1,10 +1,12 @@
-﻿using Cinemachine;
+using System.Collections;
 using Level;
-using System;
+﻿using Cinemachine;
+
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 using WorldGeneration;
 using Vector2 = UnityEngine.Vector2;
 
@@ -15,16 +17,18 @@ namespace Player
         [SerializeField] private float defaultPlayerActionTime;
         [SerializeField] private float hackerDelay;
         [SerializeField] private HackerNPC hacker;
+        [SerializeField] private Animator animator;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
-
+        private EndGameMenu _endGameMenu;
         public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
 
         public CinemachineVirtualCamera cinemachineVirtualCamera { get; set; }
         
         public int BarrierRadius { get; set; }
+        
         
         public bool HasShield { get; set; }
         
@@ -110,7 +114,7 @@ namespace Player
 
                 // Check if target platform is available to be stand on
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
-                if (targetPlatform.IsReachable)
+                if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
                     if (targetPlatform.Effect != null)
                     {
@@ -150,29 +154,46 @@ namespace Player
         private void MoveSelfOnPlatform(int x, int z)
         {
             Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
+            transform.rotation = OrganicMovements.ConvertInputIntoRotation(PlayerPlatformX - x, PlayerPlatformZ - z);
+            
+            animator.SetTrigger("Jump");
+            animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
             _playerPath.Enqueue(new Vector2Int(x, z));
-            var target = World[x, z];
-            transform.position = target.PlayerPivot.position;
+
+            StartCoroutine(PerformMovingTowardsTarget());
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
-
-            if (target.IsCheckPoint)
-            {
-                Debug.Log("Checkpoint has been reached");
-                _playerPath.Clear();
-                Destroy(Hacker.gameObject);
-                Hacker = null;
-                return;
-            }
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
             
             // Init hacker if this input is first one
-            if (Hacker != null)
+            if (Hacker is not null)
+            {
+                if (Hacker.HasReachedPlayer())
+                    Hacker.KillPlayer();
                 return;
-            
+            }
+
             Hacker = Instantiate(hacker);
+            Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
+
+            IEnumerator PerformMovingTowardsTarget()
+            {
+                var target = World[x, z].PlayerPivot.position;
+                var distance = target - transform.position;
+
+                var delta = distance / ActionCooldown;
+                
+                var time = 0f;
+
+                while (time < ActionCooldown)
+                {
+                    transform.position += delta * Time.deltaTime;
+                    time += Time.deltaTime;
+                    yield return null;                
+                }
+            }
             Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
         }
 

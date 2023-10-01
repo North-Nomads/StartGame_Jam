@@ -7,8 +7,15 @@ namespace UI
     public class PauseMenu : MonoBehaviour
     {
         [SerializeField] private RectTransform content;
+        private static bool _isCharacterControllable = true;
         private static bool _isPaused;
         public static bool IsPaused => _isPaused;
+        public static bool IsCharacterControllable => _isCharacterControllable;
+
+        public void SetPlayerControls(bool canControl)
+        {
+            _isCharacterControllable = canControl;
+        }
 
         private void Start()
         {

@@ -1,53 +1,57 @@
-using UI;
+using Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WorldGeneration;
 
-public class EndGameMenu : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private RectTransform winContent;
-    [SerializeField] private RectTransform loseContent;
-    [SerializeField] private PauseMenu pauseMenu;
-    [SerializeField] private WorldGenerator worldGenerator;
-    
-    private void Start()
+    public class EndGameMenu : MonoBehaviour
     {
-        winContent.gameObject.SetActive(false);
-        loseContent.gameObject.SetActive(false);
-    }
+        [SerializeField] private RectTransform winContent;
+        [SerializeField] private RectTransform loseContent;
+        [SerializeField] private PauseMenu pauseMenu;
+        [SerializeField] private WorldGenerator worldGenerator;
 
-    public void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void ExitToMainMenu()
-    {
-        SceneManager.LoadScene(SceneIDs.MainMenuSceneID);
-    }
-
-    public void LoadNextLevel()
-    {
-        if (SceneIDs.TotalLevels == SceneIDs.LoadedLevelID)
+        private void Start()
         {
-            ExitToMainMenu();
-            return;
+            LevelJudge.PauseMenu = pauseMenu;
+            winContent.gameObject.SetActive(false);
+            loseContent.gameObject.SetActive(false);
         }
 
-        SceneIDs.LoadedLevelID++;
-        // Call WorldGenerator scene rebuild
-        worldGenerator.ReloadLevel();
+        public void RestartLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void ExitToMainMenu()
+        {
+            SceneManager.LoadScene(SceneIDs.MainMenuSceneID);
+        }
+
+        public void LoadNextLevel()
+        {
+            if (SceneIDs.TotalLevels == SceneIDs.LoadedLevelID)
+            {
+                ExitToMainMenu();
+                return;
+            }
+
+            SceneIDs.LoadedLevelID++;
+            // Call WorldGenerator scene rebuild
+            worldGenerator.ReloadLevel();
     }
 
-    public void ShowWinMenu()
-    {
-        winContent.gameObject.SetActive(true);
-        pauseMenu.PauseGame();
-    }
+        public void ShowWinMenu()
+        {
+            winContent.gameObject.SetActive(true);
+            pauseMenu.PauseGame();
+        }
 
-    public void ShowLoseMenu()
-    {
-        loseContent.gameObject.SetActive(true);
-        pauseMenu.PauseGame();
+        public void ShowLoseMenu()
+        {
+            loseContent.gameObject.SetActive(true);
+            pauseMenu.PauseGame();
+        }
     }
 }

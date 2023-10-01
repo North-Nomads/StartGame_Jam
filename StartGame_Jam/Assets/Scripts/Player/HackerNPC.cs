@@ -1,6 +1,7 @@
-﻿using Level;
-using Unity.VisualScripting;
+using System.Collections;
+using Level;
 using UnityEngine;
+using Utils;
 using WorldGeneration;
 
 namespace Player
@@ -8,10 +9,12 @@ namespace Player
     public class HackerNPC : MonoBehaviour
     {
         [SerializeField] private float defaultActionTimer;
-        
+        [SerializeField] private Animator animator;
+
         private float _currentActionTimer;
         private Vector2Int _hackerPosition;
         private float _startDelay;
+        private bool _hasKilledPlayer;
 
         public float DefaultActionTimer => defaultActionTimer;
         public PlayerMovement TargetPlayer { get; set; }
@@ -38,12 +41,16 @@ namespace Player
 
         private void MoveOnNextPlatform()
         {
-            // DEBUG ONLY 
-            // Disable error throwing on player caught
-            if (HasReachedPlayer())
-                LevelJudge.WinLoseScreen.ShowLoseMenu();
+            if (_hasKilledPlayer)
+                return;
+            
+
+            animator.SetTrigger("Jump");
+            animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
             var possibleTarget = TargetPlayer.PlayerPath.Peek();
+            transform.rotation = OrganicMovements.ConvertInputIntoRotation(_hackerPosition.x - possibleTarget.x,
+                _hackerPosition.y - possibleTarget.y);
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
             var zDistance = Mathf.Abs(TargetPlayer.PlayerPlatformZ - possibleTarget.y);
 
@@ -56,9 +63,25 @@ namespace Player
             var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
             transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;
             _hackerPosition = targetPlatform;
-            
+
             if (HasReachedPlayer())
+                KillPlayer();
+        }
+
+        public void KillPlayer()
+        {
+            _hasKilledPlayer = true;
+            LevelJudge.PauseMenu.SetPlayerControls(false);
+            animator.SetTrigger("Attack");
+
+            StartCoroutine(WaitForKillAnimation());
+                
+            IEnumerator WaitForKillAnimation()
+            {
+                yield return new WaitForSeconds(1f);
+                LevelJudge.PauseMenu.SetPlayerControls(true);
                 LevelJudge.WinLoseScreen.ShowLoseMenu();
+            }
         }
 
         /// <summary>
@@ -73,6 +96,7 @@ namespace Player
 
         public void CallOnHackerSpawn(WorldGenerator world, PlayerMovement playerMovement, float hackerDelay, Vector2Int checkpointPosition)
         {
+            _hasKilledPlayer = false;
             TargetPlayer = playerMovement;
             World = world;
             
