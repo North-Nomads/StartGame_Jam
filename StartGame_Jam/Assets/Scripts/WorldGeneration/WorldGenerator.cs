@@ -15,6 +15,9 @@ namespace WorldGeneration
     public class WorldGenerator : MonoBehaviour
     {
         [SerializeField] private EndGameMenu endGameMenu;
+
+        [SerializeField] private int FinishID;
+
         // Size of 2d array
         [SerializeField] private int levelSizeX;
         [SerializeField] private int levelSizeZ;
@@ -92,6 +95,10 @@ namespace WorldGeneration
                 for (int i = 0; i < levelSizeX; i++)
                 {
                     byte id = reader.ReadByte();
+                    if (id == FinishID)
+                    {
+                        _finishPosition = new Vector2Int(i, j);
+                    }
                     byte effectId = reader.ReadByte();
                     PlatformFlags flags = (PlatformFlags)reader.ReadByte();
                     int rotation = 0;
