@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WorldGeneration;
@@ -17,7 +18,7 @@ namespace Player
         private Vector2 _moveInput;
         private int _playerMoves;
 
-        public bool CanMoveNow => _currentActionCooldown <= 0;
+        public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
         
         public int BarrierRadius { get; set; }
         
