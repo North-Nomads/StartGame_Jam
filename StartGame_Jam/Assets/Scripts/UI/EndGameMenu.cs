@@ -26,16 +26,14 @@ public class EndGameMenu : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        var totalLevels = SceneManager.sceneCountInBuildSettings;
-        var thisLevelNumber = SceneManager.GetActiveScene().buildIndex;
-        
-        if (totalLevels == thisLevelNumber)
+        if (SceneIDs.TotalLevels == SceneIDs.LoadedLevelID)
         {
             ExitToMainMenu();
             return;
         }
 
-        SceneManager.LoadScene(thisLevelNumber + 1);
+        SceneIDs.LoadedLevelID++;
+        // Call WorldGenerator scene rebuild
     }
 
     public void ShowWinMenu()
