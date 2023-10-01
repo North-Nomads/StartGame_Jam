@@ -1,12 +1,14 @@
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WorldGeneration;
 
 public class EndGameMenu : MonoBehaviour
 {
     [SerializeField] private RectTransform winContent;
     [SerializeField] private RectTransform loseContent;
     [SerializeField] private PauseMenu pauseMenu;
+    [SerializeField] private WorldGenerator worldGenerator;
     
     private void Start()
     {
@@ -34,6 +36,7 @@ public class EndGameMenu : MonoBehaviour
 
         SceneIDs.LoadedLevelID++;
         // Call WorldGenerator scene rebuild
+        worldGenerator.ReloadLevel();
     }
 
     public void ShowWinMenu()

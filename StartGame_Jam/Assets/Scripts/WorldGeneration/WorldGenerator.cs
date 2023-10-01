@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using UI;
 
 namespace WorldGeneration
 {
@@ -28,6 +29,7 @@ namespace WorldGeneration
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
         private Vector2Int _finishPosition;
+        private PlayerMovement _player;
 
         public Vector2Int FinishPosition => _finishPosition;
 
@@ -45,13 +47,29 @@ namespace WorldGeneration
 
         private void Start()
         {
-            // Read txt
-            LoadLevel(SceneManager.GetActiveScene().name + ".map");
-            // Initialize level
-            
-            // Spawn player
-            var player = Instantiate(playerPrefab);
-            player.HandleOnInstantiation(this);
+            ReloadLevel();
+        }
+
+        public void ReloadLevel()
+        {
+            if (_player != null)
+            {
+                Destroy(_player);
+            }
+            for (int i = 0; i < LevelSizeX; i++)
+            {
+                for (int j = 0; j < LevelSizeZ; j++)
+                {
+                    Destroy(_worldPlatforms[i, j]);
+                }
+            }
+
+            // Read the file
+            LoadLevel($"Level{SceneIDs.LoadedLevelID}.map");
+
+            // Spawn the player
+            _player = Instantiate(playerPrefab);
+            _player.HandleOnInstantiation(this);
 
             LevelJudge.WinLoseScreen = endGameMenu;
         }
