@@ -4,6 +4,7 @@ using Level;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace WorldGeneration
 {
@@ -18,9 +19,9 @@ namespace WorldGeneration
         [SerializeField] private int levelSizeZ;
 
         // Prefabs of platforms (index = id)
-        [SerializeField] private IndexedPlatformPrefabLink[] platformPrefabs;
+        [SerializeField] private SerializableDictionary<int, WorldPlatform> platformPrefabs;
         // Effects array that are sorted by their id
-        [SerializeField] private IndexedPlatformEffectLink[] platformEffects;
+        [SerializeField] private SerializableDictionary<int, PlatformEffect> platformEffects;
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
 
@@ -63,17 +64,26 @@ namespace WorldGeneration
         {
             using Stream stream = File.OpenRead(Path.Combine(Application.dataPath, "Resources", "Levels", filePath));
             using BinaryReader reader = new(stream);
-            levelSizeX = reader.ReadByte();
             levelSizeZ = reader.ReadByte();
+            levelSizeX = reader.ReadByte();
+            int version = reader.ReadInt32();
+            Debug.Log($"Opened world saved in editor version key: {version}");
             _worldPlatforms = new WorldPlatform[levelSizeX, levelSizeZ];
-            for (int i = 0; i < levelSizeX; i++)
+            for (int j = 0; j < levelSizeZ; j++) 
             {
-                for (int j = 0; j < levelSizeZ; j++)
+                for (int i = 0; i < levelSizeX; i++)
                 {
                     byte id = reader.ReadByte();
                     byte effectId = reader.ReadByte();
-                    var tile = Instantiate(platformPrefabs.First(x => x.Index == id).Prefab);
-                    var effect = platformEffects.First(x => x.Index == id).EffectPrefab;
+                    PlatformFlags flags = (PlatformFlags)reader.ReadByte();
+                    int rotation = 0;
+                    if ((flags & PlatformFlags.RotateBy90) != 0) 
+                        rotation += 90;
+                    if ((flags & PlatformFlags.RotateBy180) != 0)
+                        rotation += 180;
+                    var tile = Instantiate(platformPrefabs[id]);
+                    var effect = platformEffects[effectId];
+                    tile.transform.Rotate(0, rotation, 0);
                     tile.transform.position = new Vector3(i, 0, j);
                     tile.Effect = effect;
                     tile.X = i;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace WorldGeneration
@@ -34,5 +35,26 @@ namespace WorldGeneration
         /// Effect that is applied when player stands on the platform
         /// </summary>
         public PlatformEffect Effect { get; set; }
+    }
+
+    /// <summary>
+    /// Defines the flags to serialize the platforms into a file.
+    /// </summary>
+    [Serializable]
+    [Flags]
+    public enum PlatformFlags : byte
+    {
+        /// <summary>
+        /// There are not any flags attached to the platform.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// The platform is rotated by 90 degrees over the Y axis.
+        /// </summary>
+        RotateBy90,
+        /// <summary>
+        /// The platform is rotated by 180 degrees over the Y axis.
+        /// </summary>
+        RotateBy180
     }
 }

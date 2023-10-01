@@ -306,10 +306,51 @@ MonoBehaviour:
   levelSizeX: 0
   levelSizeZ: 0
   platformPrefabs:
-  - Index: 0
-    Prefab: {fileID: 0}
-  - Index: 0
-    Prefab: {fileID: 0}
+    records:
+    - Key: 0
+      Value: {fileID: 0}
+    - Key: 11
+      Value: {fileID: 2953726649091454831, guid: 7e45611777b8a0f4dab2b4f1375cdfb0, type: 3}
+    - Key: 12
+      Value: {fileID: 2953726649091454831, guid: 736331d263e9675459fad7fb9f9e82d9, type: 3}
+    - Key: 13
+      Value: {fileID: 2953726649091454831, guid: 5e1905d6fac0e164a9b97cfd47db300a, type: 3}
+    - Key: 14
+      Value: {fileID: 2953726649091454831, guid: 1ad7138cc5042c24d9ea370b1f8dc862, type: 3}
+    - Key: 15
+      Value: {fileID: 2953726649091454831, guid: 222e6fc004184234f83de44a6fc383bc, type: 3}
+    - Key: 16
+      Value: {fileID: 2953726649091454831, guid: 36eff0344ef3ab74983dd73035ff5f21, type: 3}
+    - Key: 20
+      Value: {fileID: 2953726649091454831, guid: 33b8fda032c55944083041d511404c39, type: 3}
+    - Key: 30
+      Value: {fileID: 2953726649091454831, guid: 6d45262659ad47e4fa600dacfba56cb3, type: 3}
+    - Key: 41
+      Value: {fileID: 2953726649091454831, guid: cfb5198af7eece24abeb86030755a1dd, type: 3}
+    - Key: 42
+      Value: {fileID: 2953726649091454831, guid: 87342b3c4cc850a44b268b603f7fe68a, type: 3}
+    - Key: 43
+      Value: {fileID: 2953726649091454831, guid: 0556e5ad0f307cd4d8fcaf7f388468a7, type: 3}
+    - Key: 44
+      Value: {fileID: 2953726649091454831, guid: ff2fa55eff54b5047a13ae3a2f73abd3, type: 3}
+    - Key: 45
+      Value: {fileID: 2953726649091454831, guid: d1bfaa38935f2824bb7b82a7dd0ad20e, type: 3}
+    - Key: 51
+      Value: {fileID: 2953726649091454831, guid: 64b0b2d5af9f53b468233327f83a2b3a, type: 3}
+    - Key: 52
+      Value: {fileID: 2953726649091454831, guid: fde25275ce6d5af4cb0db7f85e9a7fcb, type: 3}
+    - Key: 60
+      Value: {fileID: 2953726649091454831, guid: 59e9fa59dd1c0d44881e87cef5aabd27, type: 3}
+    - Key: 70
+      Value: {fileID: 2953726649091454831, guid: 598ef12aa40ada642bd86bf52d28915d, type: 3}
+    - Key: 90
+      Value: {fileID: 2953726649091454831, guid: af9b653f183b6a5489e6c428b47da4d3, type: 3}
+  platformEffects:
+    records:
+    - Key: 0
+      Value: {fileID: 0}
+    - Key: 1
+      Value: {fileID: 0}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
 --- !u!1 &442926590
 GameObject:
