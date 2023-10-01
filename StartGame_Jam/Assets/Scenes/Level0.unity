@@ -2352,7 +2352,7 @@ MonoBehaviour:
   winContent: {fileID: 2067547707}
   loseContent: {fileID: 497680559}
   pauseMenu: {fileID: 1945767670}
-  worldGenerator: {fileID: 0}
+  worldGenerator: {fileID: 373850732}
 --- !u!1 &1945767665
 GameObject:
   m_ObjectHideFlags: 0

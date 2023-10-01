@@ -37,9 +37,9 @@ namespace UI
                 return;
             }
 
-        SceneIDs.LoadedLevelID++;
-        // Call WorldGenerator scene rebuild
-        worldGenerator.ReloadLevel();
+            SceneIDs.LoadedLevelID++;
+            // Call WorldGenerator scene rebuild
+            worldGenerator.ReloadLevel();
     }
 
         public void ShowWinMenu()
