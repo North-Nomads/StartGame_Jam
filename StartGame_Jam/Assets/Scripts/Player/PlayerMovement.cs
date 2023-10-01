@@ -24,9 +24,9 @@ namespace Player
         private readonly Queue<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private EndGameMenu _endGameMenu;
-        public bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
+        private bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
 
-        public CinemachineVirtualCamera cinemachineVirtualCamera { get; set; }
+        public CameraShake CameraShake { get; set; }
         
         public int BarrierRadius { get; set; }
         
@@ -99,17 +99,12 @@ namespace Player
                 int targetX = PlayerPlatformX + moveX;
                 int targetZ = PlayerPlatformZ + moveZ;
                 
-                if (targetX < 0 || targetX >= World.LevelSizeX)
+                if (targetX < 0 || targetX >= World.LevelSizeX || targetZ < 0 || targetZ >= World.LevelSizeZ)
                 {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
+                    CameraShake.ShakeCameraOnBump();
                     return;
                 }
-
-                if (targetZ < 0 || targetZ >= World.LevelSizeZ)
-                {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
-                    return;
-                }
+                
                 // Calculate target platform position
                 var targetPlatform = World[targetX, targetZ];
 
@@ -126,7 +121,7 @@ namespace Player
                 }
                 else
                 {
-                    cinemachineVirtualCamera.GetComponent<CameraShake>().ShakeCamera();
+                    CameraShake.ShakeCameraOnBump();
                 }
             }
             
@@ -214,6 +209,7 @@ namespace Player
         {
             ActionCooldown = defaultPlayerActionTime;
             World = world;
+            CameraShake = World.CameraShake;
             
             PlayerPlatformX = 0;
             PlayerPlatformZ = 0;

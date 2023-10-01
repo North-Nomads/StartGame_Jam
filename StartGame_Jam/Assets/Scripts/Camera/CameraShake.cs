@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
@@ -5,32 +6,42 @@ namespace Camera
 {
     public class CameraShake : MonoBehaviour
     {
-        private float _shakeTimer;
-        
-        public CinemachineVirtualCamera CinemachineVirtualCamera { get; set; }
+        [SerializeField] private float wallBumpAmplitude;
+        [SerializeField] private float wallBumpFrequency;
+        [SerializeField] private float wallBumpShakeTimer;
 
-        public void ShakeCamera()
+        private float _timeLeft;
+        private CinemachineVirtualCamera _virtualCamera;
+        private CinemachineBasicMultiChannelPerlin _perlin;
+
+        private void Start()
         {
-            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 2;
-            cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 7;
-            _shakeTimer = 0.3f;
+            _virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            _perlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        }
+        
+        public void ShakeCameraOnBump()
+        {
+            _perlin.m_AmplitudeGain = wallBumpAmplitude;
+            _perlin.m_FrequencyGain = wallBumpFrequency;
+            _timeLeft = wallBumpShakeTimer;
         }
 
-
+        public void StopCameraShake()
+        {
+            _perlin.m_AmplitudeGain = 0;
+            _perlin.m_FrequencyGain = 0;
+        }
+        
         private void Update()
         {
-            if (_shakeTimer > 0)
+            if (_timeLeft > 0)
             {
-                _shakeTimer -= Time.deltaTime;
-                if (_shakeTimer <= 0f)
-                {
-                    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-                    cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
-                    cinemachineBasicMultiChannelPerlin.m_FrequencyGain = 0;
-                }
+                _timeLeft -= Time.deltaTime;
+                return;
             }
+            
+            StopCameraShake();
         }
     }
 }

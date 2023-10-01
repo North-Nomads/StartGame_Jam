@@ -208,6 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf62c89570197604dab1acae483f3a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallBumpAmplitude: 2
+  wallBumpFrequency: 7
+  wallBumpShakeTimer: 0.2
 --- !u!1 &67908243
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 28560664}
+  cameraShake: {fileID: 28560666}
   endGameMenu: {fileID: 1891167871}
   FinishID: 30
   platformPrefabs:

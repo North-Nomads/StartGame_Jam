@@ -1,10 +1,8 @@
 using Player;
 using System.IO;
 using Level;
-using System.Linq;
 using Camera;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utils;
 using UI;
 using Cinemachine;
@@ -16,7 +14,11 @@ namespace WorldGeneration
     /// </summary>
     public class WorldGenerator : MonoBehaviour
     {
+        [Header("Camera")]
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private CameraShake cameraShake;
+        
+        
         [SerializeField] private EndGameMenu endGameMenu;
         [SerializeField] private int FinishID;
 
@@ -49,6 +51,8 @@ namespace WorldGeneration
         /// Gets the Z-size of the level.
         /// </summary>
         public int LevelSizeZ => _levelSizeZ;
+
+        public CameraShake CameraShake => cameraShake;
 
         private void Start()
         {
