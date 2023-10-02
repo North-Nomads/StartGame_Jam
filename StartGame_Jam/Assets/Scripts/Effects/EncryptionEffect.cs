@@ -7,7 +7,7 @@ namespace Effects
 {
     public class EncryptionEffect : PlatformEffect
     {
-        [SerializeField] private float newHackerAnimationTime;
+        [SerializeField] private float boostPower;
         [SerializeField] private float boostTime;
         
         public override void ExecuteOnPickUp(PlayerMovement player)
@@ -18,13 +18,13 @@ namespace Effects
                 return;
             }
 
-            player.Hacker.ActionTimer = newHackerAnimationTime;
+            player.Hacker.ActionTimer *= boostPower;
             StartCoroutine(WaitForTime());
 
             IEnumerator WaitForTime()
             {
                 yield return new WaitForSeconds(boostTime);
-                player.Hacker.ActionTimer = player.Hacker.DefaultActionTimer;
+                player.Hacker.ActionTimer /= boostPower;
             }
         }
     }

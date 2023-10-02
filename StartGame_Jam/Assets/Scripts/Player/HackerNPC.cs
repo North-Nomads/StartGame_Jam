@@ -17,7 +17,6 @@ namespace Player
         private float _startDelay;
         private bool _hasKilledPlayer;
 
-        public float DefaultActionTimer => defaultActionTimer;
         public PlayerMovement TargetPlayer { get; set; }
         public WorldGenerator World { get; set; }
         public float ActionTimer { get; set; }

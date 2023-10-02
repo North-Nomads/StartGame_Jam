@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelToHide: {fileID: 3988136441288404988}
-  newHackerAnimationTime: 0
-  boostTime: 0
+  boostPower: 1.75
+  boostTime: 2
 --- !u!1001 &4294706881374720685
 PrefabInstance:
   m_ObjectHideFlags: 0
