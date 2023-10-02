@@ -11,6 +11,8 @@ namespace Player
     {
         [SerializeField] private float defaultActionTimer;
         [SerializeField] private Animator animator;
+        [SerializeField] private AudioSource source;
+        [SerializeField] private AudioClip sound;
 
         private float _currentActionTimer;
         private Vector2Int _hackerPosition;
@@ -70,6 +72,8 @@ namespace Player
 
         public void KillPlayer()
         {
+            if (SoundManager.IsSoundEnabled)
+                source.PlayOneShot(sound);
             _hasKilledPlayer = true;
             
             PauseMenu.SetPlayerControls(false);
