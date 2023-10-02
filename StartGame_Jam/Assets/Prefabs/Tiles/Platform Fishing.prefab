@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 7723094167321709235}
-  isReachable: 0
+  isReachable: 1
   isCheckPoint: 0
 --- !u!1001 &4750899779972803950
 PrefabInstance:
