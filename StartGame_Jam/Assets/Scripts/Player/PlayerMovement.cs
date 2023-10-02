@@ -5,6 +5,7 @@ using Level;
 using System.Collections.Generic;
 using Camera;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
@@ -173,7 +174,15 @@ namespace Player
             target.OnReach(this);
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
-                LevelJudge.WinLoseScreen.ShowWinMenu();
+            {
+                StartCoroutine(WaitForPlayerGo());
+                IEnumerator WaitForPlayerGo()
+                {
+                    yield return new WaitForSeconds(ActionCooldown);
+                    LevelJudge.WinLoseScreen.ShowWinMenu();
+                }
+            }
+                
             
             // Init hacker if this input is first one
             if (Hacker is not null)
