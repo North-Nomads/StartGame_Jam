@@ -50,7 +50,21 @@ namespace Player
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
-            var possibleTarget = TargetPlayer.SeeNextStep();
+            Vector2Int possibleTarget;
+            if (TargetPlayer.PlayerPath.Count == 0)
+            {
+                Vector2Int playerPosition = new(TargetPlayer.PlayerPlatformX, TargetPlayer.PlayerPlatformZ);
+                float checkDelta = Vector2Int.Distance(playerPosition, _hackerPosition);
+                if (Mathf.Round(checkDelta) == 1)
+                {
+                    possibleTarget = playerPosition;
+                }
+                else return;
+            }
+            else
+            {
+                possibleTarget = TargetPlayer.SeeNextStep();
+            }
             transform.rotation = OrganicMovements.ConvertInputIntoRotation(_hackerPosition.x - possibleTarget.x,
                 _hackerPosition.y - possibleTarget.y);
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
@@ -62,7 +76,7 @@ namespace Player
             if (xDistance <= barrierRadius && zDistance <= barrierRadius && TargetPlayer.HasBarrier)
                 return;
             
-            var targetPlatform = TargetPlayer.GetNextStep();
+            var targetPlatform = TargetPlayer.PlayerPath.Count == 0 ? possibleTarget : TargetPlayer.GetNextStep();
             transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;
             _hackerPosition = targetPlatform;
 
