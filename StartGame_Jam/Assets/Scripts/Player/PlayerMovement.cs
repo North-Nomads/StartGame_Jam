@@ -146,7 +146,7 @@ namespace Player
         /// </summary>
         /// <param name="x">target platform x coordinate</param>
         /// <param name="z">target platform z coordinate</param>
-        private void MoveSelfOnPlatform(int x, int z)
+        public void MoveSelfOnPlatform(int x, int z)
         {
             Vector2Int currentPosition = new(PlayerPlatformX, PlayerPlatformZ);
             transform.rotation = OrganicMovements.ConvertInputIntoRotation(PlayerPlatformX - x, PlayerPlatformZ - z);
