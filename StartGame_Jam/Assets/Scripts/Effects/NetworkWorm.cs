@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Player;
+using UI;
 using UnityEngine;
 using WorldGeneration;
 
@@ -18,22 +19,28 @@ namespace Effects
                 return;
             }
 
-            var queue = player.PlayerPath;
-            if (queue.Count == 0)
+            var playerPath = player.PlayerPath;
+            if (playerPath.Count == 0)
                 return;
 
+            PauseMenu.SetPlayerControls(false);
             StartCoroutine(PerformSteppingBack());
 
             IEnumerator PerformSteppingBack()
             {
+                player.RemoveLastStep();
+                yield return new WaitForSeconds(timeBetweenSteps);
+
                 for (int i = 0; i < backStepsAmount; i++)
                 {
-                    if (queue.Count == 0)
+                    if (playerPath.Count == 0)
                         yield break;
                     
-                    player.ReturnOneStepBack();
+                    player.GoOneStepBack();
                     yield return new WaitForSeconds(timeBetweenSteps);
                 }
+                
+                PauseMenu.SetPlayerControls(true);
             }
         }
     }

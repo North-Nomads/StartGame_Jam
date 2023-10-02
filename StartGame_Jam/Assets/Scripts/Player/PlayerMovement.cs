@@ -114,13 +114,13 @@ namespace Player
                 // Call MoveSelfOnPlatform(x, z) where x, z are indices of 2d array for target platform 
                 if (targetPlatform.IsReachable && PauseMenu.IsCharacterControllable && !PauseMenu.IsPaused)
                 {
+                    MoveSelfOnPlatform(targetX, targetZ);
+                    _currentActionCooldown = ActionCooldown;
                     if (targetPlatform.Effect != null && targetPlatform.Effect.IsPickable)
                     {
                         targetPlatform.Effect.ExecuteOnPickUp(this);
                         targetPlatform.DisableEffect();
                     }
-                    MoveSelfOnPlatform(targetX, targetZ);
-                    _currentActionCooldown = ActionCooldown;
                 }
                 else
                 {
@@ -157,6 +157,7 @@ namespace Player
             
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
+            
             _playerPath.Add(new Vector2Int(x, z));
 
             StartCoroutine(PerformMovingTowardsTarget());
@@ -204,12 +205,17 @@ namespace Player
             }
         }
 
-        public void ReturnOneStepBack()
+        public void RemoveLastStep()
+        {
+            _playerPath.RemoveAt(_playerPath.Count - 1);
+        }
+
+        public void GoOneStepBack()
         {
             var targetPosition = _playerPath[^1];
-            _playerPath.RemoveAt(_playerPath.Count - 1);
-            print($"Returning back 1 step to {targetPosition}");
             MoveSelfOnPlatform(targetPosition.x, targetPosition.y);
+            _playerPath.RemoveAt(_playerPath.Count - 1);
+            _playerPath.RemoveAt(_playerPath.Count - 1);
         }
 
         public void HandleBarrierBlock()

@@ -1,5 +1,6 @@
 using System.Collections;
 using Level;
+using UI;
 using UnityEngine;
 using Utils;
 using WorldGeneration;
@@ -71,7 +72,8 @@ namespace Player
         public void KillPlayer()
         {
             _hasKilledPlayer = true;
-            LevelJudge.PauseMenu.SetPlayerControls(false);
+            
+            PauseMenu.SetPlayerControls(false);
             animator.SetTrigger("Attack");
 
             StartCoroutine(WaitForKillAnimation());
@@ -79,7 +81,7 @@ namespace Player
             IEnumerator WaitForKillAnimation()
             {
                 yield return new WaitForSeconds(1f);
-                LevelJudge.PauseMenu.SetPlayerControls(true);
+                PauseMenu.SetPlayerControls(true);
                 LevelJudge.WinLoseScreen.ShowLoseMenu();
             }
         }

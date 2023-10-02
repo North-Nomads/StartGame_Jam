@@ -12,7 +12,7 @@ namespace UI
         public static bool IsPaused => _isPaused;
         public static bool IsCharacterControllable => _isCharacterControllable;
 
-        public void SetPlayerControls(bool canControl)
+        public static void SetPlayerControls(bool canControl)
         {
             _isCharacterControllable = canControl;
         }
