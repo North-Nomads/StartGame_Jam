@@ -29,6 +29,8 @@ namespace WorldGeneration
         // Player prefab
         [SerializeField] private PlayerMovement playerPrefab;
 
+        [SerializeField] private AudioSource audio;
+
         // Array of platforms 
         private WorldPlatform[,] _worldPlatforms;
         private Vector2Int _finishPosition;
@@ -56,6 +58,7 @@ namespace WorldGeneration
 
         private void Start()
         {
+            audio.mute = !SoundManager.IsSoundEnabled;
             ReloadLevel();
         }
 

@@ -101,7 +101,7 @@ MonoBehaviour:
   defaultActionTimer: 0.3
   animator: {fileID: 5030013223943385124}
   source: {fileID: 318084075990479755}
-  sound: {fileID: 8300000, guid: 5209c6230b1caaf4ba7999a42ff5500c, type: 3}
+  sound: {fileID: 8300000, guid: 92e746c85f1badf4c8f5e736f9a63a28, type: 3}
 --- !u!82 &318084075990479755
 AudioSource:
   m_ObjectHideFlags: 0
