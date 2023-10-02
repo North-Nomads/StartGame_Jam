@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelToHide: {fileID: 6824560981270360084}
-  backStepsAmount: 0
-  timeBetweenSteps: 0
+  backStepsAmount: 3
+  timeBetweenSteps: 0.3
 --- !u!1001 &5941619944538066245
 PrefabInstance:
   m_ObjectHideFlags: 0

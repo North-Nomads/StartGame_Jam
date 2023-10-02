@@ -22,7 +22,7 @@ namespace Player
         [SerializeField] private Transform childObject;
 
         private float _currentActionCooldown; // Movement timer (updating in Update())
-        private readonly Queue<Vector2Int> _playerPath = new();
+        private readonly List<Vector2Int> _playerPath = new();
         private Vector2 _moveInput;
         private EndGameMenu _endGameMenu;
         private bool CanMoveNow => _currentActionCooldown <= 0 && !PauseMenu.IsPaused;
@@ -47,7 +47,7 @@ namespace Player
         /// <summary>
         /// A queue of coordinates which 
         /// </summary>
-        public Queue<Vector2Int> PlayerPath => _playerPath;
+        public List<Vector2Int> PlayerPath => _playerPath;
         
         /// <summary>
         /// World object that has all information about the platforms
@@ -157,7 +157,7 @@ namespace Player
             
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionCooldown);
-            _playerPath.Enqueue(new Vector2Int(x, z));
+            _playerPath.Add(new Vector2Int(x, z));
 
             StartCoroutine(PerformMovingTowardsTarget());
             PlayerPlatformX = x;
@@ -206,7 +206,9 @@ namespace Player
 
         public void ReturnOneStepBack()
         {
-            var targetPosition = _playerPath.Dequeue();
+            var targetPosition = _playerPath[^1];
+            _playerPath.RemoveAt(_playerPath.Count - 1);
+            print($"Returning back 1 step to {targetPosition}");
             MoveSelfOnPlatform(targetPosition.x, targetPosition.y);
         }
 
@@ -225,6 +227,15 @@ namespace Player
             PlayerPlatformX = 0;
             PlayerPlatformZ = 0;
             transform.position = World[0, 0].PlayerPivot.position;
+        }
+
+        public Vector2Int SeeNextStep() => PlayerPath[0];
+
+        public Vector2Int GetNextStep()
+        {
+            var request = PlayerPath[0];
+            PlayerPath.RemoveAt(0);
+            return request;
         }
     }
 }

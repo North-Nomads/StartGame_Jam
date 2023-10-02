@@ -48,7 +48,7 @@ namespace Player
             animator.SetTrigger("Jump");
             animator.SetFloat("JumpSpeed", 1 / ActionTimer);
 
-            var possibleTarget = TargetPlayer.PlayerPath.Peek();
+            var possibleTarget = TargetPlayer.SeeNextStep();
             transform.rotation = OrganicMovements.ConvertInputIntoRotation(_hackerPosition.x - possibleTarget.x,
                 _hackerPosition.y - possibleTarget.y);
             var xDistance = Mathf.Abs(TargetPlayer.PlayerPlatformX - possibleTarget.x);
@@ -60,7 +60,7 @@ namespace Player
             if (xDistance <= barrierRadius && zDistance <= barrierRadius && TargetPlayer.HasBarrier)
                 return;
             
-            var targetPlatform = TargetPlayer.PlayerPath.Dequeue();
+            var targetPlatform = TargetPlayer.GetNextStep();
             transform.position = World[targetPlatform.x, targetPlatform.y].PlayerPivot.position;
             _hackerPosition = targetPlatform;
 
