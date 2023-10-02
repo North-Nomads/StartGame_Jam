@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5480518185422745122}
-  - component: {fileID: 2953726649091454831}
+  - component: {fileID: 743654299312641464}
   m_Layer: 0
   m_Name: Platform Toxic
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2953726649091454831
+--- !u!114 &743654299312641464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6396823392892324673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bea0627327226043bf9a9f7fcc462d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 057d478efb72f4c4098fabd8048c3b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerPivot: {fileID: 2155370381455701656}

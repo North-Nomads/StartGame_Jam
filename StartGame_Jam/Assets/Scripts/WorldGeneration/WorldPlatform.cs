@@ -1,3 +1,4 @@
+using Player;
 using System;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ namespace WorldGeneration
         {
             Effect.IsPickable = false;
             Effect.HideChildren();
+        }
+
+        public virtual void OnReach(PlayerMovement player)
+        {
+
         }
     }
 

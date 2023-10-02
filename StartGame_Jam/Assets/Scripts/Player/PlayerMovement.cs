@@ -159,7 +159,9 @@ namespace Player
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
 
-            if (World[x, z].IsCheckPoint)
+            var target = World[x, z];
+
+            if (target.IsCheckPoint)
             {
                 Debug.Log("Checkpoint has been reached");
                 _playerPath.Clear();
@@ -167,6 +169,8 @@ namespace Player
                 Hacker = null;
                 return;
             }
+
+            target.OnReach(this);
 
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
