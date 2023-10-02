@@ -18,6 +18,7 @@ namespace Level
 
         public void PlayFirstLevel()
         {
+            SceneIDs.TotalLevels = 5;
             SceneIDs.LoadedLevelID = 1;
             SceneManager.LoadScene(SceneIDs.LevelsSceneID + 1);
         }
