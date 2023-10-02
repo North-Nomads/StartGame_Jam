@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelToHide: {fileID: 5920619052200032215}
-  effectDuration: 0
-  effectPower: 0
+  effectDuration: 3
+  effectPower: 0.5
 --- !u!1001 &6839607158888712838
 PrefabInstance:
   m_ObjectHideFlags: 0

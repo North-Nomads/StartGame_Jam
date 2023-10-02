@@ -116,11 +116,6 @@ namespace Player
                 {
                     MoveSelfOnPlatform(targetX, targetZ);
                     _currentActionCooldown = ActionCooldown;
-                    if (targetPlatform.Effect != null && targetPlatform.Effect.IsPickable)
-                    {
-                        targetPlatform.Effect.ExecuteOnPickUp(this);
-                        targetPlatform.DisableEffect();
-                    }
                 }
                 else
                 {
@@ -201,6 +196,13 @@ namespace Player
                     transform.position += delta * Time.deltaTime;
                     time += Time.deltaTime;
                     yield return null;                
+                }
+
+                var targetPlatform = World[x, z];
+                if (targetPlatform.Effect != null && targetPlatform.Effect.IsPickable)
+                {
+                    targetPlatform.Effect.ExecuteOnPickUp(this);
+                    targetPlatform.DisableEffect();
                 }
             }
         }

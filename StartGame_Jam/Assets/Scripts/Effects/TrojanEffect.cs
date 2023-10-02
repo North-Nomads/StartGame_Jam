@@ -19,15 +19,17 @@ namespace Effects
                 player.HandleBarrierBlock();
                 return;
             }
-            
-            player.ActionCooldown *= effectPower;
+
+            print(player.ActionCooldown);
+            player.ActionCooldown /= effectPower;
+            print(player.ActionCooldown);
 
             StartCoroutine(DurationCoroutine());
 
             IEnumerator DurationCoroutine()
             {
                 yield return new WaitForSeconds(effectDuration);
-                player.ActionCooldown /= effectPower;
+                player.ActionCooldown *= effectPower;
             }
         }
     }
