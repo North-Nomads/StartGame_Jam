@@ -163,6 +163,15 @@ namespace Player
             PlayerPlatformX = x;
             PlayerPlatformZ = z;
 
+            if (World[x, z].IsCheckPoint)
+            {
+                Debug.Log("Checkpoint has been reached");
+                _playerPath.Clear();
+                Destroy(Hacker.gameObject);
+                Hacker = null;
+                return;
+            }
+
             if (x == World.FinishPosition.x && z == World.FinishPosition.y)
                 LevelJudge.WinLoseScreen.ShowWinMenu();
             
@@ -193,7 +202,6 @@ namespace Player
                     yield return null;                
                 }
             }
-            Hacker.CallOnHackerSpawn(World, this, hackerDelay, currentPosition);
         }
 
         public void ReturnOneStepBack()

@@ -432,6 +432,8 @@ MonoBehaviour:
       Value: {fileID: 2953726649091454831, guid: 59e9fa59dd1c0d44881e87cef5aabd27, type: 3}
     - Key: 70
       Value: {fileID: 2953726649091454831, guid: 598ef12aa40ada642bd86bf52d28915d, type: 3}
+    - Key: 80
+      Value: {fileID: 2953726649091454831, guid: d9be0ab0b42b91c4081d285261d544ab, type: 3}
     - Key: 90
       Value: {fileID: 2953726649091454831, guid: af9b653f183b6a5489e6c428b47da4d3, type: 3}
   platformEffects:

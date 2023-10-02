@@ -63,18 +63,23 @@ namespace WorldGeneration
         {
             if (_player != null)
             {
-                Destroy(_player);
+                Destroy(_player.gameObject);
             }
             for (int i = 0; i < LevelSizeX; i++)
             {
                 for (int j = 0; j < LevelSizeZ; j++)
                 {
-                    Destroy(_worldPlatforms[i, j]);
+                    var platform = _worldPlatforms[i, j];
+                    Destroy(platform.gameObject);
+                    if (platform.Effect != null)
+                    {
+                        Destroy(platform.Effect.gameObject);
+                    }
                 }
             }
 
             // Read the file
-            LoadLevel($"Level{SceneIDs.LoadedLevelID}.map");
+            LoadLevel($"Level{SceneIDs.LoadedLevelID}");
 
             // Spawn the player
             _player = Instantiate(playerPrefab);
@@ -91,7 +96,8 @@ namespace WorldGeneration
         /// <param name="filePath"></param>
         public void LoadLevel(string filePath)
         {
-            using Stream stream = File.OpenRead(Path.Combine(Application.dataPath, "Resources", "Levels", filePath));
+            TextAsset asset = Resources.Load<TextAsset>(Path.Combine("Levels", filePath));
+            using Stream stream = new MemoryStream(asset.bytes);
             using BinaryReader reader = new(stream);
             _levelSizeZ = reader.ReadByte();
             _levelSizeX = reader.ReadByte();

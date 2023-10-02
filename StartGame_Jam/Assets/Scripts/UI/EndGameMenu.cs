@@ -39,7 +39,7 @@ namespace UI
 
             SceneIDs.LoadedLevelID++;
             // Call WorldGenerator scene rebuild
-            worldGenerator.ReloadLevel();
+            RestartLevel();
     }
 
         public void ShowWinMenu()
