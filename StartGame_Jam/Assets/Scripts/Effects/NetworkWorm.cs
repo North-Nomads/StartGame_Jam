@@ -43,5 +43,10 @@ namespace Effects
                 PauseMenu.SetPlayerControls(true);
             }
         }
+
+        private void OnDestroy()
+        {
+            PauseMenu.SetPlayerControls(true);
+        }
     }
 }

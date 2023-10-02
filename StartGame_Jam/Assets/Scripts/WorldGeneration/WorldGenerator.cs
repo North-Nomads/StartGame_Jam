@@ -88,6 +88,7 @@ namespace WorldGeneration
             virtualCamera.Follow = _player.ChildTransform;
 
             LevelJudge.WinLoseScreen = endGameMenu;
+            PauseMenu.SetPlayerControls(true);
         }
 
         /// <summary>
