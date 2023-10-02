@@ -94,6 +94,7 @@ namespace Player
 
                 int moveX = DefineWorldSide(_moveInput.x);
                 int moveZ = DefineWorldSide(_moveInput.y);
+                print($"{moveX}, {moveZ}, {AreInputsReversed}");
 
                 if (moveX != 0 && moveZ != 0)
                     return;
