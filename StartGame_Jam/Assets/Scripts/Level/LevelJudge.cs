@@ -6,5 +6,6 @@ namespace Level
     {
         public static EndGameMenu WinLoseScreen;
         public static PauseMenu PauseMenu { get; set; }
+        public static int Coins { get; set; }
     }
 }

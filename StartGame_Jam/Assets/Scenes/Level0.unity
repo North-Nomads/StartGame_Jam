@@ -457,6 +457,8 @@ MonoBehaviour:
       Value: {fileID: 2403892058275187260, guid: 3368e06b1ef16ef468f77feb80522492, type: 3}
     - Key: 8
       Value: {fileID: 5388544087272533338, guid: 2ad98a6dcb273e649ac71373d2fa5303, type: 3}
+    - Key: 9
+      Value: {fileID: 5168154243784551963, guid: 3301976132555f24aae4930db5a6bb92, type: 3}
   playerPrefab: {fileID: 1081286649194985799, guid: 12237040ce1cd144ca720acb0a800716, type: 3}
   audio: {fileID: 373850733}
 --- !u!82 &373850733
